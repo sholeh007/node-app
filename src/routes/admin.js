@@ -1,12 +1,12 @@
 import express from "express";
 import path from "path";
+import dir from "../helper/path.js";
 
 const Router = express.Router();
-const __dirname = path.resolve();
 
 Router.route("/add-product")
   .get((req, res) => {
-    res.sendFile(path.join(__dirname, "src", "views", "add-product.html"));
+    res.sendFile(path.join(dir, "../", "views", "add-product.html"));
   })
   .post((req, res, next) => {
     console.log(req.body.title);
