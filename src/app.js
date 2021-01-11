@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(adminRoute);
+app.use("/admin", adminRoute);
 app.use(shopRoute);
 
 app.use((req, res, next) => {
