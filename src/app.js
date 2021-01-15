@@ -14,7 +14,7 @@ app.use("/admin", adminRoute);
 app.use(shopRoute);
 
 // middleware for error 404
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).sendFile(path.join(dir, "../", "views", "404.html"));
 });
 
