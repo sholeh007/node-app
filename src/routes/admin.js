@@ -7,7 +7,7 @@ const product = [];
 
 Router.route("/add-product")
   .get((req, res) => {
-    res.sendFile(path.join(dir, "../", "views", "add-product.html"));
+    res.render("add-product");
   })
   .post((req, res) => {
     product.push({ title: req.body.title });
