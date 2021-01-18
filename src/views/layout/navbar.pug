@@ -2,6 +2,6 @@ header.main-header
     nav.main-header__nav
       ul.main-header__item-list
         li.main-header__item
-          a(href="/") shop
+          a(href="/", class={active : path === '/'}) shop
         li.main-header__item
-          a(href="/admin/add-product") product
+          a(href="/admin/add-product",class={active: path === 'add-product'}) product
