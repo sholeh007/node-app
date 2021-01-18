@@ -6,7 +6,8 @@ import { product } from "./admin.js";
 const Route = express.Router();
 
 Route.get("/", (req, res) => {
-  res.render("shop");
+  const data = product;
+  res.render("shop", { product: data, title: "Shop" });
 });
 
 export default Route;

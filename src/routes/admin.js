@@ -7,7 +7,7 @@ const product = [];
 
 Router.route("/add-product")
   .get((req, res) => {
-    res.render("add-product");
+    res.render("add-product", { title: "add product" });
   })
   .post((req, res) => {
     product.push({ title: req.body.title });

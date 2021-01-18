@@ -1,18 +1,19 @@
-<!DOCTYPE html>
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Shop
-    link(rel="stylesheet", href="/css/main.css")
-  body
-    header.main-header
-      nav.main-header__nav
-        ul.main-header__item-list
-          li.main-header__item
-            a.active(href="/") shop
-          li.main-header__item
-            a(href="/admin/add-product") product
-    main
-      h1 My Product
-      p List of all the products...
+extends layout/main
+
+block content
+  main
+    .grid
+      if product.length > 0
+        each products in product
+          article.card.product-item
+            header.card__header
+              h1.product__title #{products.title}
+            .card-image
+              img(src="", alt="Gambar Product")
+            .card-content
+              h2.product__price Rp. 50.000
+              p.product__description Coba saja
+            .card__actions
+              button.btn Add to cart
+      else
+        h1 No product
