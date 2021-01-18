@@ -1,24 +1,24 @@
 import express from "express";
-import path from "path";
-import dir from "./helper/path.js";
-import { Router } from "../src/routes/admin.js";
+import adminRoute from "../src/routes/admin.js";
 import shopRoute from "../src/routes/shop.js";
+import errorController from "./controller/Error.js";
 
 const app = express();
 
+//config pug engine
 app.set("view engine", "pug");
 app.set("views", "src/views");
 
+//middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.use("/admin", Router);
+//route
+app.use("/admin", adminRoute);
 app.use(shopRoute);
 
 // middleware for error 404
-app.use((req, res) => {
-  res.status(404).render("404");
-});
+app.use(errorController[404]);
 
 app.listen(3000);
