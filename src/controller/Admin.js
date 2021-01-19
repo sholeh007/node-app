@@ -8,7 +8,8 @@ const product = {
     });
   },
   addProduct: (req, res) => {
-    const Product = new Products(req.body.title);
+    const data = Object.values(req.body);
+    const Product = new Products(...data);
     Product.save();
     res.redirect("/");
   },

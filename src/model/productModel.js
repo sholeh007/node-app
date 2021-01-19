@@ -1,8 +1,11 @@
 const products = [];
 
 class productModel {
-  constructor(title) {
+  constructor(title, imageUrl, price, description) {
     this.title = title;
+    this.imageUrl = imageUrl;
+    this.description = description;
+    this.price = price;
   }
 
   static getAllProduct() {
