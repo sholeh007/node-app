@@ -2,7 +2,10 @@ import Products from "../model/productModel.js";
 
 const product = {
   getProduct: (req, res) => {
-    res.render("add-product", { title: "add product", path: "add-product" });
+    res.render("admin/add-product", {
+      title: "add product",
+      path: "add-product",
+    });
   },
   addProduct: (req, res) => {
     const Product = new Products(req.body.title);
