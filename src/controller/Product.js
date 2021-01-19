@@ -1,11 +1,12 @@
-export const products = [];
+import Products from "../model/productModel.js";
 
 const product = {
   getProduct: (req, res) => {
     res.render("add-product", { title: "add product", path: "add-product" });
   },
   addProduct: (req, res) => {
-    products.push({ title: req.body.title });
+    const Product = new Products(req.body.title);
+    Product.save();
     res.redirect("/");
   },
 };

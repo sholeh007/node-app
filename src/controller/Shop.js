@@ -1,8 +1,8 @@
-import { products } from "../controller/Product.js";
+import Products from "../model/productModel.js";
 
 const shop = {
   getShop: (req, res) => {
-    const data = products;
+    const data = Products.getAllProduct();
     res.render("shop", { product: data, title: "Shop", path: "/" });
   },
 };
