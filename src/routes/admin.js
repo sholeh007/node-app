@@ -1,10 +1,10 @@
 import express from "express";
-import productController from "../controller/Product.js";
+import adminController from "../controller/Admin.js";
 
 const Router = express.Router();
 
 Router.route("/add-product")
-  .get(productController.getProduct)
-  .post(productController.addProduct);
-
+  .get(adminController.getAddProduct)
+  .post(adminController.addProduct);
+Router.get("/products", adminController.getProduct);
 export default Router;
