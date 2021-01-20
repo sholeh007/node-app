@@ -29,6 +29,12 @@ const shop = {
       title: "Checkout",
     });
   },
+  getOrder: (req, res) => {
+    res.render("shop/order", {
+      path: "/order",
+      title: "Your Order",
+    });
+  },
 };
 
 export default shop;

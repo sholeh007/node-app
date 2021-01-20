@@ -1,0 +1,22 @@
+extends ../layout/main
+
+block content
+  main
+    .grid
+      if product.length > 0
+        each products in product
+          article.card.product-item
+            header.card__header
+              h1.product__title #{products.title}
+            .card__image
+              img(src=products.imageUrl, alt=products.title)
+            .card__content
+              h2.product__price Rp. #{products.price}
+            .card__content
+              p.product__description #{products.description}
+            .card__actions
+              a.btn(href="/admin/edit-product") Edit
+              form(action="/admin/delete", method="post")
+                button.btn(type="submit") Delete
+      else
+        h1 No product

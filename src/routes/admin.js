@@ -7,4 +7,5 @@ Router.route("/add-product")
   .get(adminController.getAddProduct)
   .post(adminController.addProduct);
 Router.get("/products", adminController.getProduct);
+Router.put("/edit-product/:id");
 export default Router;

@@ -16,7 +16,7 @@ const product = {
   getProduct: (req, res) => {
     const data = Products.getAllProduct();
     res.render("admin/list-product", {
-      products: data,
+      product: data,
       path: "/admin/products",
       title: "Admin Products",
     });
