@@ -12,7 +12,12 @@ class productModel {
     return products;
   }
 
+  static findById(id) {
+    return products.filter((item) => item.id === id);
+  }
+
   save() {
+    this.id = Math.random().toString();
     products.push(this);
   }
 }

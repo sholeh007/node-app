@@ -8,5 +8,6 @@ Route.get("/products", shopController.getProduct);
 Route.get("/cart", shopController.getCart);
 Route.get("/checkout", shopController.getCheckout);
 Route.get("/order", shopController.getOrder);
+Route.get("/detail/:id", shopController.getDetail);
 
 export default Route;

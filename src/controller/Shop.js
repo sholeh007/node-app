@@ -35,6 +35,15 @@ const shop = {
       title: "Your Order",
     });
   },
+  getDetail: (req, res) => {
+    const id = req.params.id;
+    const product = Products.findById(id);
+    res.render("shop/detail", {
+      title: "Detail product",
+      product,
+      path: "/products",
+    });
+  },
 };
 
 export default shop;

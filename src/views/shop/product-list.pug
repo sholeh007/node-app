@@ -15,6 +15,7 @@ block content
             .card__content
               p.product__description #{products.description}
             .card__actions
+              a.btn(href="/detail/" + products.id) detail
               form(action="/add-cart", method="post")
                 button.btn Add to cart
       else
