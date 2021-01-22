@@ -23,6 +23,11 @@ const shop = {
       title: "Your Cart",
     });
   },
+  addCart: (req, res) => {
+    const id = req.body.id;
+    console.log(id);
+    res.redirect("/cart");
+  },
   getCheckout: (req, res) => {
     res.render("shop/checkout", {
       path: "/checkout",

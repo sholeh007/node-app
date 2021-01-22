@@ -16,7 +16,6 @@ block content
               p.product__description #{products.description}
             .card__actions
               a.btn(href="/detail/" + products.id) detail
-              form(action="/add-cart", method="post")
-                button.btn Add to cart
+              include ../component/btn-add-card
       else
         h1 No product
