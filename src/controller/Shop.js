@@ -1,21 +1,27 @@
 import Products from "../model/productModel.js";
 
 const shop = {
-  getProduct: (req, res) => {
-    const data = Products.getAllProduct();
-    res.render("shop/product-list", {
-      product: data,
-      title: "All Product",
-      path: "/products",
-    });
-  },
   getIndex: (req, res) => {
-    const data = Products.getAllProduct();
-    res.render("shop/index", {
-      product: data,
-      title: "Shop",
-      path: "/",
-    });
+    Products.getAllProduct()
+      .then(([rows, fieldData]) => {
+        res.render("shop/index", {
+          product: rows,
+          title: "Shop",
+          path: "/",
+        });
+      })
+      .catch((err) => console.error(err));
+  },
+  getProduct: (req, res) => {
+    Products.getAllProduct()
+      .then(([rows, fieldData]) => {
+        res.render("shop/product-list", {
+          product: rows,
+          title: "Product List",
+          path: "/products",
+        });
+      })
+      .catch((err) => console.error(err));
   },
   getCart: (req, res) => {
     res.render("shop/cart", {

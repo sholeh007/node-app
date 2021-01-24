@@ -1,5 +1,4 @@
-const products = [];
-
+import db from "../data/database.js";
 class productModel {
   constructor(title, imageUrl, price, description) {
     this.title = title;
@@ -9,17 +8,13 @@ class productModel {
   }
 
   static getAllProduct() {
-    return products;
+    //mengembalikan promise
+    return db.execute("SELECT * FROM products");
   }
 
-  static findById(id) {
-    return products.filter((item) => item.id === id);
-  }
+  static findById(id) {}
 
-  save() {
-    this.id = Math.random().toString();
-    products.push(this);
-  }
+  save() {}
 }
 
 export default productModel;
