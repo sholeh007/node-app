@@ -1,27 +1,29 @@
 import Products from "../model/productModel.js";
 
 const shop = {
-  getIndex: (req, res) => {
-    Products.getAllProduct()
-      .then(([rows, fieldData]) => {
-        res.render("shop/index", {
-          product: rows,
-          title: "Shop",
-          path: "/",
-        });
-      })
-      .catch((err) => console.error(err));
+  getIndex: async (req, res) => {
+    const [rows] = await Products.getAllProduct();
+    try {
+      await res.render("shop/index", {
+        product: rows,
+        title: "Shop",
+        path: "/",
+      });
+    } catch (err) {
+      console.error(err);
+    }
   },
-  getProduct: (req, res) => {
-    Products.getAllProduct()
-      .then(([rows, fieldData]) => {
-        res.render("shop/product-list", {
-          product: rows,
-          title: "Product List",
-          path: "/products",
-        });
-      })
-      .catch((err) => console.error(err));
+  getProduct: async (req, res) => {
+    const [rows] = await Products.getAllProduct();
+    try {
+      await res.render("shop/product-list", {
+        product: rows,
+        title: "Product List",
+        path: "/products",
+      });
+    } catch (err) {
+      console.error(err);
+    }
   },
   getCart: (req, res) => {
     res.render("shop/cart", {
@@ -31,7 +33,6 @@ const shop = {
   },
   addCart: (req, res) => {
     const id = req.body.id;
-    console.log(id);
     res.redirect("/cart");
   },
   getCheckout: (req, res) => {
@@ -46,14 +47,18 @@ const shop = {
       title: "Your Order",
     });
   },
-  getDetail: (req, res) => {
+  getDetail: async (req, res) => {
     const id = req.params.id;
-    const product = Products.findById(id);
-    res.render("shop/detail", {
-      title: "Detail product",
-      product,
-      path: "/products",
-    });
+    const [rows] = await Products.findById(id);
+    try {
+      await res.render("shop/detail", {
+        title: "Detail product",
+        products: rows[0], //untuk mengambil objek di dalam single array
+        path: "/products",
+      });
+    } catch (err) {
+      console.error(err);
+    }
   },
 };
 

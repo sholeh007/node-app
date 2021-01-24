@@ -9,13 +9,13 @@ block content
             header.card__header
               h1.product__title #{products.title}
             .card__image
-              img(src=products.imageUrl, alt=products.title)
+              img(src=products.imageUrl alt=products.title loading="lazy")
             .card__content
               h2.product__price Rp. #{products.price}
             .card__content
               p.product__description #{products.description}
             .card__actions
-              a.btn(href="/detail/" + products.id) detail
+              a.btn(href="/detail/" + products.idproducts) detail
               include ../component/btn-add-card
       else
         h1 No product

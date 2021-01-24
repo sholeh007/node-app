@@ -2,10 +2,9 @@ extends ../layout/main
 
 block content
   main.centered
-    each products in product
-      h1 #{products.title}
-      hr
-      div: img(src=products.imageUrl alt=products.title)
-      h2 #{products.price}
-      p #{products.description}
-      include ../component/btn-add-card
+    h1 #{products.title}
+    hr
+    div: img(src=products.imageUrl alt=products.title)
+    h2 #{products.price}
+    p #{products.description}
+    include ../component/btn-add-card

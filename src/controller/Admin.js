@@ -7,19 +7,27 @@ const product = {
       path: "/admin/add-product",
     });
   },
-  addProduct: (req, res) => {
+  addProduct: async (req, res) => {
     const data = Object.values(req.body);
     const Product = new Products(...data);
-    Product.save();
-    res.redirect("/");
+    try {
+      await Product.save();
+      await res.redirect("/");
+    } catch (err) {
+      console.error(err);
+    }
   },
-  getProduct: (req, res) => {
-    const data = Products.getAllProduct();
-    res.render("admin/list-product", {
-      product: data,
-      path: "/admin/products",
-      title: "Admin Products",
-    });
+  getProduct: async (req, res) => {
+    const [rows] = await Products.getAllProduct();
+    try {
+      await res.render("admin/list-product", {
+        product: rows,
+        path: "/admin/products",
+        title: "Admin Products",
+      });
+    } catch (err) {
+      console.error(err);
+    }
   },
 };
 

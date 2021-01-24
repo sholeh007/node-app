@@ -9,7 +9,7 @@ block content
             header.card__header
               h1.product__title #{products.title}
             .card__image
-              img(src=products.imageUrl, alt=products.title)
+              img(src=products.imageUrl alt=products.title loading="lazy")
             .card__content
               h2.product__price Rp. #{products.price}
             .card__content
