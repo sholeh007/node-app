@@ -1,10 +1,8 @@
-import mysql from "mysql2";
+import mongodb from "mongodb";
 
-const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "node",
-});
+const mongoClient = mongodb.MongoClient;
+const url =
+  "mongodb+srv://sholeh:coba@cluster0.mzgug.mongodb.net/myproject?retryWrites=true&w=majority";
+const db = mongoClient.connect(url, { useUnifiedTopology: true }); // ini return promise
 
-export default pool.promise();
+export default db;
