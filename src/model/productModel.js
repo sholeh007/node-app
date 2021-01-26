@@ -23,7 +23,7 @@ class productModel {
     try {
       const result = await db
         .collection("product")
-        .find({ _id: new mongodb.ObjectId(id) })
+        .find({ _id: new mongodb.ObjectId(id) }) //
         .next();
       return result;
     } catch (err) {

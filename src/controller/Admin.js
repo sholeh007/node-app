@@ -2,9 +2,9 @@ import Products from "../model/productModel.js";
 
 const product = {
   getAddProduct: (req, res) => {
-    res.render("admin/add-product", {
+    res.render("admin/edit-product", {
       title: "add product",
-      path: "/admin/add-product",
+      path: "/admin/edit-product",
     });
   },
   addProduct: async (req, res) => {
@@ -18,10 +18,10 @@ const product = {
     }
   },
   getProduct: async (req, res) => {
-    const rows = await Products.getAllProduct();
+    const product = await Products.getAllProduct();
     try {
       await res.render("admin/list-product", {
-        product: rows,
+        product,
         path: "/admin/products",
         title: "Admin Products",
       });
