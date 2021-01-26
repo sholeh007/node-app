@@ -1,13 +1,12 @@
 import Products from "../model/productModel.js";
-
-const product = {
-  getAddProduct: (req, res) => {
+class product {
+  static getAddProduct(req, res) {
     res.render("admin/edit-product", {
       title: "add product",
       path: "/admin/edit-product",
     });
-  },
-  addProduct: async (req, res) => {
+  }
+  async addProduct(req, res) {
     const data = Object.values(req.body);
     const Product = new Products(...data);
     try {
@@ -16,8 +15,8 @@ const product = {
     } catch (err) {
       console.error(err);
     }
-  },
-  getProduct: async (req, res) => {
+  }
+  async getProduct(req, res) {
     const product = await Products.getAllProduct();
     try {
       await res.render("admin/list-product", {
@@ -28,7 +27,7 @@ const product = {
     } catch (err) {
       console.error(err);
     }
-  },
-};
+  }
+}
 
 export default product;
