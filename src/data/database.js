@@ -1,8 +1,16 @@
 import mongodb from "mongodb";
 
-const mongoClient = mongodb.MongoClient;
+const client = mongodb.MongoClient;
 const url =
   "mongodb+srv://sholeh:coba@cluster0.mzgug.mongodb.net/myproject?retryWrites=true&w=majority";
-const db = mongoClient.connect(url, { useUnifiedTopology: true }); // ini return promise
 
-export default db;
+async function run(callback) {
+  try {
+    const db = await client.connect(url, { useUnifiedTopology: true });
+    callback(db);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export default run;

@@ -22,13 +22,9 @@ app.use(express.static("public"));
 // middleware for error 404
 app.use(errorController[404]);
 
-// IIFE function
-(() => {
-  mongodb
-    .then((result) => {
-      console.log("connected");
-      console.log(result);
-      app.listen(3000);
-    })
-    .catch((err) => console.error(err));
-})();
+const runServer = (result) => {
+  console.log("connected");
+  console.log(result);
+  app.listen(3000);
+};
+mongodb(runServer);
