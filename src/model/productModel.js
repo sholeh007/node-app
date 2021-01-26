@@ -1,4 +1,4 @@
-import db from "../data/database.js";
+import { getDb } from "../data/database.js";
 class productModel {
   constructor(title, imageUrl, price, description) {
     this.title = title;
@@ -7,20 +7,26 @@ class productModel {
     this.price = price;
   }
 
-  static getAllProduct() {
-    //mengembalikan promise
-    return db.execute("SELECT * FROM products");
+  static async getAllProduct() {
+    const db = getDb();
+    try {
+      const result = await db.collection("product").find().toArray();
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  static findById(id) {
-    return db.execute("SELECT * FROM products WHERE idproducts=?", [id]);
-  }
+  static findById(id) {}
 
-  save() {
-    return db.execute(
-      "INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",
-      [this.title, this.price, this.description, this.imageUrl]
-    );
+  async save() {
+    const db = getDb();
+    try {
+      const result = await db.collection("product").insertOne(this);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 

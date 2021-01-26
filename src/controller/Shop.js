@@ -2,7 +2,7 @@ import Products from "../model/productModel.js";
 
 const shop = {
   getIndex: async (req, res) => {
-    const [rows] = await Products.getAllProduct();
+    const rows = await Products.getAllProduct();
     try {
       await res.render("shop/index", {
         product: rows,
@@ -14,7 +14,7 @@ const shop = {
     }
   },
   getProduct: async (req, res) => {
-    const [rows] = await Products.getAllProduct();
+    const rows = await Products.getAllProduct();
     try {
       await res.render("shop/product-list", {
         product: rows,

@@ -1,16 +1,24 @@
 import mongodb from "mongodb";
 
 const client = mongodb.MongoClient;
-const url =
-  "mongodb+srv://sholeh:coba@cluster0.mzgug.mongodb.net/myproject?retryWrites=true&w=majority";
+const username = "sholeh";
+const password = "coba";
+const database = "shop";
+const url = `mongodb+srv://${username}:${password}@cluster0.mzgug.mongodb.net/${database}?retryWrites=true&w=majority`;
+let db;
 
-async function run(callback) {
+export async function run(callback) {
   try {
-    const db = await client.connect(url, { useUnifiedTopology: true });
-    callback(db);
+    const _client = await client.connect(url, { useUnifiedTopology: true });
+    db = _client.db();
+    callback();
   } catch (err) {
     console.error(err);
+    throw err;
   }
 }
 
-export default run;
+export const getDb = () => {
+  if (db) return db;
+  throw "Database not found";
+};

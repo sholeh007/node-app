@@ -18,7 +18,7 @@ const product = {
     }
   },
   getProduct: async (req, res) => {
-    const [rows] = await Products.getAllProduct();
+    const rows = await Products.getAllProduct();
     try {
       await res.render("admin/list-product", {
         product: rows,
