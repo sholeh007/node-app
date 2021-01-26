@@ -15,7 +15,7 @@ block content
             .card__content
               p.product__description #{products.description}
             .card__actions
-              a.btn(href="/detail/" + products.idproducts) detail
+              a.btn(href="/detail/" + products._id) detail
               include ../component/btn-add-card
       else
         h1 No product

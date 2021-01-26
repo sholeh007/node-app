@@ -2,10 +2,10 @@ import Products from "../model/productModel.js";
 
 const shop = {
   getIndex: async (req, res) => {
-    const rows = await Products.getAllProduct();
+    const product = await Products.getAllProduct();
     try {
       await res.render("shop/index", {
-        product: rows,
+        product,
         title: "Shop",
         path: "/",
       });
@@ -14,10 +14,10 @@ const shop = {
     }
   },
   getProduct: async (req, res) => {
-    const rows = await Products.getAllProduct();
+    const product = await Products.getAllProduct();
     try {
       await res.render("shop/product-list", {
-        product: rows,
+        product,
         title: "Product List",
         path: "/products",
       });
@@ -49,11 +49,11 @@ const shop = {
   },
   getDetail: async (req, res) => {
     const id = req.params.id;
-    const [rows] = await Products.findById(id);
+    const productDetail = await Products.findById(id);
     try {
       await res.render("shop/detail", {
         title: "Detail product",
-        products: rows[0], //untuk mengambil objek di dalam single array
+        products: productDetail,
         path: "/products",
       });
     } catch (err) {

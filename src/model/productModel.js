@@ -1,3 +1,4 @@
+import mongodb from "mongodb";
 import { getDb } from "../data/database.js";
 class productModel {
   constructor(title, imageUrl, price, description) {
@@ -17,7 +18,18 @@ class productModel {
     }
   }
 
-  static findById(id) {}
+  static async findById(id) {
+    const db = getDb();
+    try {
+      const result = await db
+        .collection("product")
+        .find({ _id: new mongodb.ObjectId(id) })
+        .next();
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   async save() {
     const db = getDb();
