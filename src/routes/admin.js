@@ -8,6 +8,7 @@ Router.route("/add-product")
   .get(adminController.getAddProduct)
   .post(admin.addProduct);
 Router.get("/products", admin.getProduct);
-Router.put("/edit-product/:id");
+Router.get("/edit-product/:id", admin.editProduct);
+Router.post("/updateProduct", admin.updateProduct);
 
 export default Router;

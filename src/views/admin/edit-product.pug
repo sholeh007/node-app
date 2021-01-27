@@ -2,17 +2,25 @@ extends ../layout/main
 
 block content
   main
-    form.product-form(action="/admin/add-product", method="post")
+    form.product-form(action=editing ? '/admin/updateProduct' : '/admin/add-product' , method="post")
+      if editing
+        input(type="hidden" value=product._id name='id')
       .form-control
         label(for="title") Title
-        input(type="text",name="title",id="title")
+        input(type="text" name="title" id="title" value=editing ? product.title : '')
       .form-control
         label(for="imageUrl") ImageUrl
-        input(type="text",name="imageUrl",id="imageUrl")
+        input(type="text" name="imageUrl" id="imageUrl" value=editing ? product.imageUrl : '')
       .form-control
         label(for="price") Price
-        input(type="number",name="price",id="price")
+        input(type="number" name="price" id="price" value=editing ? product.price : '')
       .form-control
         label(for="description") Description
-        textarea(name="description", rows="5",id="description")
-      button.btn(type="submit") Add Product
+        if editing
+          textarea(name="description" rows="5" id="description") #{product.description}
+        else
+          textarea(name="description" rows="5" id="description")
+      if editing
+        button.btn(type="submit") Edit Product
+      else
+        button.btn(type="submit") Add Product
