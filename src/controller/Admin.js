@@ -53,9 +53,9 @@ class product {
     const description = req.body.description;
     const id = req.body.id;
 
-    const product = new Products(title, imageUrl, price, description, id);
+    const product = new Products(title, imageUrl, price, description);
     try {
-      await product.save();
+      await product.save(id);
       res.redirect("/admin/products");
     } catch (err) {
       console.error(err);
