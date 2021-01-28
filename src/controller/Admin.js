@@ -61,6 +61,16 @@ class product {
       console.error(err);
     }
   }
+
+  async deleteProduct(req, res) {
+    const id = req.body.id;
+    try {
+      await Products.delete(id);
+      res.redirect("/admin/products");
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 export default product;
