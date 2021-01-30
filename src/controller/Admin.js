@@ -8,7 +8,7 @@ class product {
   }
   async addProduct(req, res) {
     const data = Object.values(req.body);
-    const Product = new Products(...data);
+    const Product = new Products(...data, req.user._id);
     try {
       await Product.save();
       await res.redirect("/");

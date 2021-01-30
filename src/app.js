@@ -11,12 +11,11 @@ const app = express();
 app.set("view engine", "pug");
 app.set("views", "src/views");
 
-//middleware
-// app.use( async (req,res,next) => {
-//   const user = await User.findUser();
-//   req.user = user;
-//   next();
-// })
+app.use(async (req, res, next) => {
+  const user = await User.findUser("6015018e3293c7f9a5abe584");
+  req.user = user;
+  next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));

@@ -1,11 +1,12 @@
 import mongodb from "mongodb";
 import { getDb } from "../data/database.js";
 class productModel {
-  constructor(title, imageUrl, price, description) {
+  constructor(title, imageUrl, price, description, userId) {
     this.title = title;
     this.imageUrl = imageUrl;
     this.description = description;
     this.price = price;
+    this.userId = userId;
   }
 
   static async getAllProduct() {
