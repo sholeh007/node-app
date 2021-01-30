@@ -21,10 +21,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 //route
+app.use(shopRoute); //main route
 app.use("/admin", adminRoute);
-app.use(shopRoute);
 
-// middleware for error 404
 app.use(errorController[404]);
 
 run(() => app.listen(3000));
