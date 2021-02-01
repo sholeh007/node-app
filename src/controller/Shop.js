@@ -31,9 +31,14 @@ const shop = {
       title: "Your Cart",
     });
   },
-  addCart: (req, res) => {
+  addCart: async (req, res) => {
     const id = req.body.id;
-    res.redirect("/cart");
+    const product = await Products.findById(id);
+    try {
+      res.redirect("/cart");
+    } catch (err) {
+      console.error(err);
+    }
   },
   getCheckout: (req, res) => {
     res.render("shop/checkout", {

@@ -2,9 +2,11 @@ import { getDb } from "../data/database.js";
 import mongodb from "mongodb";
 
 class user {
-  constructor(username, email) {
+  constructor(username, email, cart, id) {
     this.username = username;
     this.email = email;
+    this.cart = cart;
+    this._id = id;
   }
 
   static async findUser(id) {
@@ -27,6 +29,18 @@ class user {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  addCart(product) {
+    // const cartProduct = this.cart.items.findIndex(cp => cp._id === product._id);
+    const updateCart = { items: [{ ...product, quantity: 1 }] };
+    const db = getDb();
+    return db
+      .collection("user")
+      .updateOne(
+        { _id: new mongodb.ObjectId(this._id) },
+        { $set: { cart: updateCart } }
+      );
   }
 }
 
