@@ -7,6 +7,10 @@ import { run } from "./data/database.js";
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
 //config pug engine
 app.set("view engine", "pug");
 app.set("views", "src/views");
@@ -16,9 +20,6 @@ app.use(async (req, res, next) => {
   req.user = user;
   next();
 });
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
 //route
 app.use(shopRoute); //main route
