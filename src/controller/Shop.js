@@ -35,7 +35,8 @@ const shop = {
     const id = req.body.id;
     const product = await Products.findById(id);
     try {
-      res.redirect("/cart");
+      await req.user.addCart(product);
+      res.redirect("/");
     } catch (err) {
       console.error(err);
     }
