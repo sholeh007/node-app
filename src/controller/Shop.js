@@ -25,18 +25,24 @@ const shop = {
       console.error(err);
     }
   },
-  getCart: (req, res) => {
-    res.render("shop/cart", {
-      path: "/cart",
-      title: "Your Cart",
-    });
+  getCart: async (req, res) => {
+    const product = await req.user.getCart();
+    try {
+      res.render("shop/cart", {
+        product,
+        path: "/cart",
+        title: "Your Cart",
+      });
+    } catch (err) {
+      console.log(err);
+    }
   },
   addCart: async (req, res) => {
     const id = req.body.id;
     const product = await Products.findById(id);
     try {
       await req.user.addCart(product);
-      res.redirect("/");
+      res.redirect("/cart");
     } catch (err) {
       console.error(err);
     }

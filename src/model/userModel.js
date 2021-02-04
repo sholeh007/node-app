@@ -35,9 +35,19 @@ class user {
     const cartProductIndex = this.cart.items.findIndex(
       (cp) => cp.productId.toString() === product._id.toString()
     );
-
+    let newQuantity = 1;
+    const updateCartItems = [...this.cart.items];
+    if (cartProductIndex >= 0) {
+      newQuantity = this.cart.items[cartProductIndex].quantity + 1;
+      updateCartItems[cartProductIndex].quantity = newQuantity;
+    } else {
+      updateCartItems.push({
+        productId: new mongodb.ObjectId(product._id),
+        quantity: newQuantity,
+      });
+    }
     const updateCart = {
-      items: [{ productId: new mongodb.ObjectId(product._id), quantity: 1 }],
+      items: updateCartItems,
     };
     const db = getDb();
     return db
@@ -46,6 +56,25 @@ class user {
         { _id: new mongodb.ObjectId(this._id) },
         { $set: { cart: updateCart } }
       );
+  }
+  async getCart() {
+    const db = getDb();
+    const productIds = [];
+    const quantitities = {};
+
+    this.cart.items.forEach((item) => {
+      let prodId = item.productId;
+      productIds.push(prodId);
+      quantitities[prodId] = item.quantity;
+    });
+
+    const products = await db
+      .collection("product")
+      .find({ _id: { $in: productIds } })
+      .toArray();
+    return products.map((product) => {
+      return { ...product, quantity: quantitities[product._id] };
+    });
   }
 }
 
