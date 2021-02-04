@@ -47,17 +47,14 @@ const shop = {
       console.error(err);
     }
   },
-  getCheckout: (req, res) => {
-    res.render("shop/checkout", {
-      path: "/checkout",
-      title: "Checkout",
-    });
-  },
-  getOrder: (req, res) => {
-    res.render("shop/order", {
-      path: "/order",
-      title: "Your Order",
-    });
+  deleteCart: async (req, res) => {
+    const id = req.body.productId;
+    try {
+      await req.user.deleteCart(id);
+      res.redirect("/cart");
+    } catch (err) {
+      console.error(err);
+    }
   },
   getDetail: async (req, res) => {
     const id = req.params.id;

@@ -76,6 +76,19 @@ class user {
       return { ...product, quantity: quantitities[product._id] };
     });
   }
+  deleteCart(productId) {
+    const db = getDb();
+    const data = this.cart.items.filter(
+      (item) => item.productId.toString() !== productId.toString()
+    );
+
+    return db
+      .collection("user")
+      .updateOne(
+        { _id: new mongodb.ObjectId(this._id) },
+        { $set: { cart: { items: data } } }
+      );
+  }
 }
 
 export default user;
