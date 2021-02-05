@@ -2,14 +2,17 @@ extends ../layout/main
 
 block content
   main
-    if product.length > 0
-      ul.cart__item-list
-        each products in product
-          li.cart__item
-            h1 #{products.title}
-            h2 quantity: #{products.quantity}
-            form(action="/cart-delete-item" method="POST")
-              input(type="hidden" value=products._id name="productId")
-              button.btn.danger(type="submit") Delete
-    else
-      h3 Empty item
+  if product.length > 0
+    ul.cart__item-list
+      each products in product
+        li.cart__item
+          h1 #{products.title}
+          h2 quantity: #{products.quantity}
+          form(action="/cart-delete-item" method="POST")
+            input(type="hidden" value=products._id name="productId")
+            button.btn.danger(type="submit") Delete
+      hr
+      form(action="/create-order" method="POST") 
+        button.btn(type="submit") Order Now
+  else
+    h3 Empty item

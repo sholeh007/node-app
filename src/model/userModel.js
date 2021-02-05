@@ -89,6 +89,22 @@ class user {
         { $set: { cart: { items: data } } }
       );
   }
+  async addOrder() {
+    const db = getDb();
+    const result = await db.collection("orders").insertOne(this.cart);
+
+    try {
+      this.cart = { items: [] };
+      return db
+        .collection("user")
+        .updateOne(
+          { _id: new mongodb.ObjectId(this._id) },
+          { $set: { cart: { items: [] } } }
+        );
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }
 
 export default user;

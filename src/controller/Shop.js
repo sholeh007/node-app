@@ -56,6 +56,14 @@ const shop = {
       console.error(err);
     }
   },
+  addOrder: async (req, res) => {
+    await req.user.addOrder();
+    try {
+      res.redirect("/order");
+    } catch (err) {
+      console.log(err);
+    }
+  },
   getDetail: async (req, res) => {
     const id = req.params.id;
     const productDetail = await Products.findById(id);
