@@ -1,4 +1,14 @@
 extends ../layout/main
 
 block content
-  h1 Hallo
+  main
+  if order.length <= 0
+    h1 Nothing there! 
+  else
+    ul.orders
+    each orders in order
+      li.orders__item 
+        h1 order - # #{orders._id}
+        ul.orders__products
+        each product in order.products
+          li.orders__products-item #{product.title} #{product.orderItem.quantity}

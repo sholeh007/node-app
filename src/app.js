@@ -18,7 +18,7 @@ app.set("views", "src/views");
 app.use(async (req, res, next) => {
   const user = await User.findUser("6015018e3293c7f9a5abe584");
   if (!user) return res.send("Access denied");
-  req.user = new User(user.name, user.email, user.cart, user._id);
+  req.user = new User(user.username, user.email, user.cart, user._id);
   next();
 });
 app.use(shopRoute); //main route
