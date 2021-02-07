@@ -117,8 +117,12 @@ class user {
       console.error(err);
     }
   }
-  async getOrder() {
+  getOrder() {
     const db = getDb();
+    return db
+      .collection("orders")
+      .find({ "user._id": new mongodb.ObjectId(this._id) })
+      .toArray();
   }
 }
 

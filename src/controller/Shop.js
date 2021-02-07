@@ -64,6 +64,18 @@ const shop = {
       console.log(err);
     }
   },
+  getOrder: async (req, res) => {
+    const order = await req.user.getOrder();
+    try {
+      res.render("shop/order", {
+        order,
+        path: "/order",
+        title: "Your Order",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
   getDetail: async (req, res) => {
     const id = req.params.id;
     const productDetail = await Products.findById(id);
