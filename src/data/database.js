@@ -1,10 +1,9 @@
 import mongodb from "mongodb";
+import dotnenv from "dotenv";
 
+dotnenv.config();
 const client = mongodb.MongoClient;
-const username = "sholeh";
-const password = "coba";
-const database = "shop";
-const url = `mongodb+srv://${username}:${password}@cluster0.mzgug.mongodb.net/${database}?retryWrites=true&w=majority`;
+const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mzgug.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 let db;
 
 export async function run(callback) {

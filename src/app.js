@@ -1,10 +1,12 @@
 import express from "express";
+import dotenv from "dotenv";
 import adminRoute from "../src/routes/admin.js";
 import shopRoute from "../src/routes/shop.js";
 import errorController from "./controller/Error.js";
 import User from "./model/userModel.js";
 import { run } from "./data/database.js";
 
+dotenv.config();
 const app = express();
 
 app.use(express.json());
@@ -26,4 +28,4 @@ app.use("/admin", adminRoute);
 
 app.use(errorController[404]);
 
-run(() => app.listen(3000));
+run(() => app.listen(process.env.APP_PORT || 3000));
