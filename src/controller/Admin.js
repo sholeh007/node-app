@@ -6,19 +6,21 @@ class product {
       path: "/admin/add-product",
     });
   }
+
   async addProduct(req, res) {
     const data = Object.values(req.body);
-    const Product = new Products(...data, req.user._id);
     try {
+      const Product = new Products(...data, req.user._id);
       await Product.save();
       await res.redirect("/");
     } catch (err) {
       console.error(err);
     }
   }
+
   async getProduct(req, res) {
-    const product = await Products.getAllProduct();
     try {
+      const product = await Products.getAllProduct();
       res.render("admin/list-product", {
         product,
         path: "/admin/products",
@@ -28,12 +30,13 @@ class product {
       console.error(err);
     }
   }
+
   async editProduct(req, res) {
     const editMode = req.query.edit;
-    if (editMode !== "true") return res.redirect("/");
-    const productId = req.params.id;
-    const product = await Products.findById(productId);
     try {
+      if (editMode !== "true") return res.redirect("/");
+      const productId = req.params.id;
+      const product = await Products.findById(productId);
       if (!product) return res.redirect("/");
       res.render("admin/edit-product", {
         product,

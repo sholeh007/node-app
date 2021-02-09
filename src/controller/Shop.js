@@ -2,9 +2,9 @@ import Products from "../model/productModel.js";
 
 const shop = {
   getIndex: async (req, res) => {
-    const product = await Products.getAllProduct();
     try {
-      await res.render("shop/index", {
+      const product = await Products.getAllProduct();
+      res.render("shop/index", {
         product,
         title: "Shop",
         path: "/",
@@ -14,9 +14,9 @@ const shop = {
     }
   },
   getProduct: async (req, res) => {
-    const product = await Products.getAllProduct();
     try {
-      await res.render("shop/product-list", {
+      const product = await Products.getAllProduct();
+      res.render("shop/product-list", {
         product,
         title: "Product List",
         path: "/products",
@@ -26,8 +26,8 @@ const shop = {
     }
   },
   getCart: async (req, res) => {
-    const product = await req.user.getCart();
     try {
+      const product = await req.user.getCart();
       res.render("shop/cart", {
         product,
         path: "/cart",
@@ -39,8 +39,8 @@ const shop = {
   },
   addCart: async (req, res) => {
     const id = req.body.id;
-    const product = await Products.findById(id);
     try {
+      const product = await Products.findById(id);
       await req.user.addCart(product);
       res.redirect("/cart");
     } catch (err) {
@@ -57,16 +57,16 @@ const shop = {
     }
   },
   addOrder: async (req, res) => {
-    await req.user.addOrder();
     try {
+      await req.user.addOrder();
       res.redirect("/order");
     } catch (err) {
       console.log(err);
     }
   },
   getOrder: async (req, res) => {
-    const order = await req.user.getOrder();
     try {
+      const order = await req.user.getOrder();
       res.render("shop/order", {
         order,
         path: "/order",
@@ -78,8 +78,8 @@ const shop = {
   },
   getDetail: async (req, res) => {
     const id = req.params.id;
-    const productDetail = await Products.findById(id);
     try {
+      const productDetail = await Products.findById(id);
       await res.render("shop/detail", {
         title: "Detail product",
         products: productDetail,

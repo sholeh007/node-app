@@ -57,6 +57,7 @@ class user {
         { $set: { cart: updateCart } }
       );
   }
+
   async getCart() {
     const db = getDb();
     const productIds = [];
@@ -68,14 +69,19 @@ class user {
       quantitities[prodId] = item.quantity;
     });
 
-    const products = await db
-      .collection("product")
-      .find({ _id: { $in: productIds } })
-      .toArray();
-    return products.map((product) => {
-      return { ...product, quantity: quantitities[product._id] };
-    });
+    try {
+      const products = await db
+        .collection("product")
+        .find({ _id: { $in: productIds } })
+        .toArray();
+      return products.map((product) => {
+        return { ...product, quantity: quantitities[product._id] };
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
+
   deleteCart(productId) {
     const db = getDb();
     const data = this.cart.items.filter(
@@ -89,10 +95,11 @@ class user {
         { $set: { cart: { items: data } } }
       );
   }
+
   async addOrder() {
     const db = getDb();
-    const product = await this.getCart();
     try {
+      const product = await this.getCart();
       const order = {
         items: product,
         user: {
@@ -117,6 +124,7 @@ class user {
       console.error(err);
     }
   }
+
   getOrder() {
     const db = getDb();
     return db
