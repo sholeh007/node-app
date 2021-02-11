@@ -25,6 +25,19 @@ const shop = {
       console.error(err);
     }
   },
+  getDetail: async (req, res) => {
+    const id = req.params.id;
+    try {
+      const productDetail = await Products.findById(id);
+      await res.render("shop/detail", {
+        title: "Detail product",
+        products: productDetail,
+        path: "/products",
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  },
   getCart: async (req, res) => {
     try {
       const product = await req.user.getCart();
@@ -74,19 +87,6 @@ const shop = {
       });
     } catch (err) {
       console.log(err);
-    }
-  },
-  getDetail: async (req, res) => {
-    const id = req.params.id;
-    try {
-      const productDetail = await Products.findById(id);
-      await res.render("shop/detail", {
-        title: "Detail product",
-        products: productDetail,
-        path: "/products",
-      });
-    } catch (err) {
-      console.error(err);
     }
   },
 };
