@@ -16,7 +16,7 @@ class product {
         imageUrl: req.body.imageUrl,
       });
       await Product.save();
-      res.redirect("/");
+      res.redirect("/admin/products");
     } catch (err) {
       console.error(err);
     }
@@ -74,9 +74,9 @@ class product {
   }
 
   async deleteProduct(req, res) {
-    const id = req.body.id;
     try {
-      await Products.delete(id);
+      const id = req.body.id;
+      await Products.findByIdAndDelete(id);
       res.redirect("/admin/products");
     } catch (err) {
       console.log(err);

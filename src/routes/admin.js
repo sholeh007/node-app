@@ -10,6 +10,6 @@ Router.route("/add-product")
 Router.get("/products", admin.getProduct);
 Router.get("/edit-product/:id", admin.editProduct);
 Router.post("/updateProduct", admin.updateProduct);
-// Router.post("/delete", admin.deleteProduct);
+Router.post("/delete", admin.deleteProduct);
 
 export default Router;
