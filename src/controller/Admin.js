@@ -24,7 +24,7 @@ class product {
 
   async getProduct(req, res) {
     try {
-      const product = await Products.getAllProduct();
+      const product = await Products.find();
       res.render("admin/list-product", {
         product,
         path: "/admin/products",
@@ -36,12 +36,12 @@ class product {
   }
 
   async editProduct(req, res) {
-    const editMode = req.query.edit;
     try {
-      if (editMode !== "true") return res.redirect("/");
+      const editMode = req.query.edit;
+      if (editMode !== "true") return res.redirect("/admin/products");
       const productId = req.params.id;
       const product = await Products.findById(productId);
-      if (!product) return res.redirect("/");
+      if (!product) return res.redirect("/admin/products");
       res.render("admin/edit-product", {
         product,
         title: "edit product",
@@ -54,15 +54,19 @@ class product {
   }
 
   async updateProduct(req, res) {
-    const title = req.body.title;
-    const imageUrl = req.body.imageUrl;
-    const price = req.body.price;
-    const description = req.body.description;
-    const id = req.body.id;
-
-    const product = new Products(title, imageUrl, price, description);
     try {
-      await product.save(id);
+      const id = req.body.id;
+      const title = req.body.title;
+      const imageUrl = req.body.imageUrl;
+      const price = req.body.price;
+      const description = req.body.description;
+
+      let product = await Products.findById(id);
+      product.title = title;
+      product.price = price;
+      product.imageUrl = imageUrl;
+      product.description = description;
+      product = await product.save();
       res.redirect("/admin/products");
     } catch (err) {
       console.error(err);
