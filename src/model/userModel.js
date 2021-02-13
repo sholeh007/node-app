@@ -28,7 +28,7 @@ const userSchema = new Schema({
   },
 });
 
-//membuat instances dari userSchema dengan menggunakan methods
+//membuat fungsi instances dari userSchema dengan menggunakan methods
 userSchema.methods.addCart = function (product) {
   const index = this.cart.items.findIndex(
     (item) => item.productId.toString() === product._id.toString()
@@ -36,6 +36,15 @@ userSchema.methods.addCart = function (product) {
 
   if (index >= 0) this.cart.items[index].quantity += 1;
   else this.cart.items.push({ productId: product._id, quantity: 1 });
+
+  return this.save();
+};
+
+userSchema.methods.removeCart = function (id) {
+  const updateProduct = this.cart.items.filter(
+    (item) => item.productId.toString() !== id.toString()
+  );
+  this.cart.items = updateProduct;
 
   return this.save();
 };

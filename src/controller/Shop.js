@@ -64,9 +64,9 @@ const shop = {
     }
   },
   deleteCart: async (req, res) => {
-    const id = req.body.productId;
     try {
-      await req.user.deleteCart(id);
+      const id = req.body.productId;
+      await req.user.removeCart(id);
       res.redirect("/cart");
     } catch (err) {
       console.error(err);
