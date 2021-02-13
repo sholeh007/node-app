@@ -49,6 +49,8 @@ userSchema.methods.removeCart = function (id) {
   return this.save();
 };
 
+userSchema.methods.addOrder = function () {};
+
 const userModel = mongoose.model("User", userSchema);
 
 export default userModel;
