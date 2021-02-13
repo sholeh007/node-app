@@ -18,7 +18,7 @@ app.set("view engine", "pug");
 app.set("views", "src/views");
 
 app.use(async (req, res, next) => {
-  const user = await User.findById("602511250ef094340ca7696d");
+  const user = await User.findById("6027627c22599a21d49e5aca");
   if (!user) return res.send("Access denied");
   // global user req
   req.user = user;
