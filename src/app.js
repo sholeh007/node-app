@@ -20,7 +20,7 @@ app.set("views", "src/views");
 app.use(async (req, res, next) => {
   const user = await User.findById("602511250ef094340ca7696d");
   if (!user) return res.send("Access denied");
-  // global user objek
+  // global user req
   req.user = user;
   next();
 });
