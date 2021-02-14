@@ -9,13 +9,14 @@ class product {
 
   async addProduct(req, res) {
     try {
-      const Product = new Products({
+      const data = {
         title: req.body.title,
         price: req.body.price,
         description: req.body.description,
         imageUrl: req.body.imageUrl,
         userId: req.user,
-      });
+      };
+      const Product = new Products(data);
       await Product.save();
       res.redirect("/admin/products");
     } catch (err) {
