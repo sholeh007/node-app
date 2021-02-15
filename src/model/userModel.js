@@ -49,7 +49,10 @@ userSchema.methods.removeCart = function (id) {
   return this.save();
 };
 
-userSchema.methods.addOrder = function () {};
+userSchema.methods.clearCart = function () {
+  this.cart = { items: [] };
+  return this.save();
+};
 
 const userModel = mongoose.model("User", userSchema);
 

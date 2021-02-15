@@ -1,4 +1,5 @@
 import Products from "../model/productModel.js";
+import Order from "../model/orderModel.js";
 
 const shop = {
   getIndex: async (req, res) => {
@@ -74,7 +75,21 @@ const shop = {
   },
   addOrder: async (req, res) => {
     try {
-      await req.user.addOrder();
+      const user = await req.user
+        .populate("cart.items.productId")
+        .execPopulate();
+      const products = user.cart.items.map((item) => {
+        return { quantity: item.quantity, product: { ...item.productId._doc } };
+      });
+      const order = new Order({
+        user: {
+          name: req.user.name,
+          userId: req.user,
+        },
+        products,
+      });
+      await order.save();
+      await req.user.clearCart();
       res.redirect("/order");
     } catch (err) {
       console.log(err);
@@ -82,7 +97,7 @@ const shop = {
   },
   getOrder: async (req, res) => {
     try {
-      const order = await req.user.getOrder();
+      const order = await Order.find({ "user.userId": req.user._id });
       res.render("shop/order", {
         order,
         path: "/order",

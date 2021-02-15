@@ -10,5 +10,5 @@ block content
         li.orders__item 
           h1 order - # #{orders._id}
           ul.orders__products
-            each product in orders.items
-              li.orders__products-item #{product.title} #{product.quantity}
+            each item in orders.products
+              li.orders__products-item #{item.product.title} (#{item.quantity})
