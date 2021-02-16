@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import adminRoute from "../src/routes/admin.js";
 import shopRoute from "../src/routes/shop.js";
+import authRoute from "../src/routes/auth.js";
 import errorController from "./controller/Error.js";
 import User from "./model/userModel.js";
 import koneksi from "./data/database.js";
@@ -27,6 +28,7 @@ app.use(async (req, res, next) => {
 
 app.use(shopRoute); //main route
 app.use("/admin", adminRoute);
+app.use(authRoute);
 
 app.use(errorController[404]);
 

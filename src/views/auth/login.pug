@@ -1,0 +1,12 @@
+extends ../layout/main
+
+block content
+  main
+    form.login-form(action='/login', method="post")
+      .form-control
+        label(for="email") E-mail
+        input(type="text" name="email" id="email" required)
+      .form-control
+        label(for="password") password
+        input(type="password" name="password" id="password" required)
+      button.btn(type="submit") Login
