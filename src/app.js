@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import session from "express-session";
 import adminRoute from "../src/routes/admin.js";
 import shopRoute from "../src/routes/shop.js";
 import authRoute from "../src/routes/auth.js";
@@ -13,6 +14,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(
+  session({ secret: "my secret", resave: false, saveUninitialized: false })
+);
 
 //config pug engine
 app.set("view engine", "pug");

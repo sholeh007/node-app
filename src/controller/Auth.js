@@ -8,7 +8,9 @@ class Auth {
 
   login(req, res) {
     // setting cookie
-    res.cookie("login", "true");
+    res.cookie("login", "true", {
+      httpOnly: true,
+    });
     res.redirect("/");
   }
 }
