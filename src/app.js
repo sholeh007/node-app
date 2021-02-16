@@ -26,6 +26,19 @@ app.use(async (req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  const cookies = req.get("Cookie");
+  // create local variabel
+  res.locals.isLogin = false;
+  if (cookies) {
+    const value = cookies.split("=")[1];
+    if (value === "true") {
+      res.locals.isLogin = true;
+    }
+  }
+  next();
+});
+
 app.use(shopRoute); //main route
 app.use("/admin", adminRoute);
 app.use(authRoute);

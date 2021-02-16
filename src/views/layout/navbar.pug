@@ -9,10 +9,11 @@ header.main-header
           a(href="/cart", class={active : path === '/cart'}) cart
         li.main-header__item
           a(href="/order", class={active : path === '/order'}) order
-        //- li.main-header__item
-        //-   a(href="/admin/add-product",class={active: path === '/admin/add-product'}) product
-        //- li.main-header__item
-        //-   a(href="/admin/products",class={active: path === '/admin/products'}) admin product
+        if isLogin
+          li.main-header__item
+            a(href="/admin/add-product",class={active: path === '/admin/add-product'}) product
+          li.main-header__item
+            a(href="/admin/products",class={active: path === '/admin/products'}) admin product
       ul.main-header__item-list
         li.main-header__item
           a(href="/login" class={active : path === '/login'}) Login

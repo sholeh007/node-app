@@ -5,6 +5,12 @@ class Auth {
       title: "Login",
     });
   }
+
+  login(req, res) {
+    // setting cookie
+    res.cookie("login", "true");
+    res.redirect("/");
+  }
 }
 
 export default Auth;
