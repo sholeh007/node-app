@@ -28,16 +28,23 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use(async (req, res, next) => {
+  if (!req.session.user) return next();
+  try {
+    const user = await User.findById(req.session.user._id);
+    req.user = user;
+    next();
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 //config pug engine
 app.set("view engine", "pug");
 app.set("views", "src/views");
 
-app.use(async (req, res, next) => {
-  const user = await User.findById("6027627c22599a21d49e5aca");
-  if (!user) return res.send("Access denied");
-  // global user req
-  req.user = user;
+app.use((req, res, next) => {
+  res.locals.isLogin = req.session.login;
   next();
 });
 
@@ -48,17 +55,5 @@ app.use(authRoute);
 app.use(errorController[404]);
 
 koneksi(() => {
-  User.findOne().then((user) => {
-    if (!user) {
-      const user_ = new User({
-        name: "sholeh",
-        email: "sayakamu@mail.com",
-        cart: {
-          items: [],
-        },
-      });
-      user_.save();
-    }
-  });
   app.listen(process.env.APP_PORT);
 });

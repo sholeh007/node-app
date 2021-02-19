@@ -86,8 +86,8 @@ const shop = {
       });
       const order = new Order({
         user: {
-          name: req.user.name,
-          userId: req.user,
+          name: req.session.user.name,
+          userId: req.session.user,
         },
         products,
       });
@@ -104,7 +104,7 @@ const shop = {
   },
   getOrder: async (req, res) => {
     try {
-      const order = await Order.find({ "user.userId": req.user._id });
+      const order = await Order.find({ "user.userId": req.session.user._id });
       res.render("shop/order", {
         order,
         path: "/order",
