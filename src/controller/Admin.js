@@ -8,14 +8,15 @@ class product {
   }
 
   async addProduct(req, res) {
+    const data = {
+      title: req.body.title,
+      price: req.body.price,
+      description: req.body.description,
+      imageUrl: req.body.imageUrl,
+      userId: req.user,
+    };
+
     try {
-      const data = {
-        title: req.body.title,
-        price: req.body.price,
-        description: req.body.description,
-        imageUrl: req.body.imageUrl,
-        userId: req.user,
-      };
       const Product = new Products(data);
       await Product.save();
       res.redirect("/admin/products");
@@ -38,10 +39,11 @@ class product {
   }
 
   async editProduct(req, res) {
+    const editMode = req.query.edit;
+    if (editMode !== "true") return res.redirect("/admin/products");
+    const productId = req.params.id;
+
     try {
-      const editMode = req.query.edit;
-      if (editMode !== "true") return res.redirect("/admin/products");
-      const productId = req.params.id;
       const product = await Products.findById(productId);
       if (!product) return res.redirect("/admin/products");
       res.render("admin/edit-product", {
@@ -56,13 +58,13 @@ class product {
   }
 
   async updateProduct(req, res) {
-    try {
-      const id = req.body.id;
-      const title = req.body.title;
-      const imageUrl = req.body.imageUrl;
-      const price = req.body.price;
-      const description = req.body.description;
+    const id = req.body.id;
+    const title = req.body.title;
+    const imageUrl = req.body.imageUrl;
+    const price = req.body.price;
+    const description = req.body.description;
 
+    try {
       let product = await Products.findById(id);
       product.title = title;
       product.price = price;
@@ -76,8 +78,9 @@ class product {
   }
 
   async deleteProduct(req, res) {
+    const id = req.body.id;
+
     try {
-      const id = req.body.id;
       await Products.findByIdAndDelete(id);
       res.redirect("/admin/products");
     } catch (err) {

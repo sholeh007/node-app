@@ -7,7 +7,7 @@ class Auth {
   }
 
   login(req, res) {
-    // setting cookie
+    // setting session
     req.session.isLogin = true;
     res.redirect("/");
   }

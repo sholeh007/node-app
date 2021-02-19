@@ -28,6 +28,7 @@ const shop = {
   },
   getDetail: async (req, res) => {
     const id = req.params.id;
+
     try {
       const productDetail = await Products.findById(id);
       await res.render("shop/detail", {
@@ -55,8 +56,9 @@ const shop = {
     }
   },
   addCart: async (req, res) => {
+    const id = req.body.id;
+
     try {
-      const id = req.body.id;
       const product = await Products.findById(id);
       await req.user.addCart(product);
       res.redirect("/cart");
@@ -65,8 +67,9 @@ const shop = {
     }
   },
   deleteCart: async (req, res) => {
+    const id = req.body.productId;
+
     try {
-      const id = req.body.productId;
       await req.user.removeCart(id);
       res.redirect("/cart");
     } catch (err) {
@@ -88,8 +91,12 @@ const shop = {
         },
         products,
       });
-      await order.save();
-      await req.user.clearCart();
+      const saveOrder = order.save();
+      const clearOrder = req.user.clearCart();
+
+      await saveOrder;
+      await clearOrder;
+
       res.redirect("/order");
     } catch (err) {
       console.log(err);
