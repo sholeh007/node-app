@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import session from "express-session";
+import csrf from "csurf";
 import connectMongoDBSession from "connect-mongodb-session";
 import adminRoute from "../src/routes/admin.js";
 import shopRoute from "../src/routes/shop.js";
@@ -8,7 +9,6 @@ import authRoute from "../src/routes/auth.js";
 import errorController from "./controller/Error.js";
 import User from "./model/userModel.js";
 import koneksi from "./data/database.js";
-import csrf from "./middleware/csrf.js";
 
 dotenv.config();
 const app = express();
@@ -17,6 +17,7 @@ const store = new mongoDBStore({
   uri: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mzgug.mongodb.net/${process.env.DB_NAME}`,
   collection: "sessions",
 });
+const csrfProtection = csrf();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -29,7 +30,8 @@ app.use(
     saveUninitialized: false,
   })
 );
-app.use(csrf);
+app.use(csrfProtection);
+
 app.use(async (req, res, next) => {
   if (!req.session.user) return next();
   try {
