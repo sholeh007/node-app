@@ -9,15 +9,30 @@ class Auth {
   }
 
   async login(req, res) {
+    const email = req.body.email;
+    const password = req.body.password;
     try {
-      const user = await User.findById("6027627c22599a21d49e5aca");
-      // setting session and save data user
-      req.session.login = true;
-      req.session.user = user;
-      req.session.save((err) => {
-        if (!err) return res.redirect("/");
-        console.log(err);
-      });
+      const user = await User.findOne({ email });
+      if (user) {
+        try {
+          const decryptPassword = await bcrypt.compare(password, user.password);
+          if (decryptPassword) {
+            // setting session and save data user
+            req.session.login = true;
+            req.session.user = user;
+            req.session.save((err) => {
+              if (!err) return res.redirect("/");
+              console.log(err);
+            });
+          } else {
+            res.redirect("/login");
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        res.redirect("/login");
+      }
     } catch (e) {
       console.error(e);
     }
