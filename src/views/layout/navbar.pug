@@ -18,6 +18,8 @@ header.main-header
         if !isLogin
           li.main-header__item
             a(href="/login" class={active : path === '/login'}) Login
+          li.main-header__item
+            a(href="/signup" class={active : path === '/signup'}) Signup
         else
           li.main-header__item
             a(href="/logout") logout

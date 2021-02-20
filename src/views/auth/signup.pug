@@ -2,11 +2,14 @@ extends ../layout/main
 
 block content
   main
-    form.login-form(action='/login', method="post")
+    form.login-form(action='/signup', method="post")
       .form-control
         label(for="email") E-mail
         input(type="email" name="email" id="email" required)
       .form-control
         label(for="password") password
         input(type="password" name="password" id="password" required)
-      button.btn(type="submit") Login
+      .form-control
+        label(for="password2") confirm password
+        input(type="password" name="password2" id="password2" required)
+      button.btn(type="submit") Signup
