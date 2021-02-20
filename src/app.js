@@ -8,6 +8,7 @@ import authRoute from "../src/routes/auth.js";
 import errorController from "./controller/Error.js";
 import User from "./model/userModel.js";
 import koneksi from "./data/database.js";
+import csrf from "./middleware/csrf.js";
 
 dotenv.config();
 const app = express();
@@ -28,6 +29,7 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use(csrf);
 app.use(async (req, res, next) => {
   if (!req.session.user) return next();
   try {
@@ -45,6 +47,7 @@ app.set("views", "src/views");
 
 app.use((req, res, next) => {
   res.locals.isLogin = req.session.login;
+  res.locals.csrfToken = req.csrfToken();
   next();
 });
 

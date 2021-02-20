@@ -9,10 +9,12 @@ block content
           h1 #{products.productId.title}
           h2 quantity: #{products.quantity}
           form(action="/cart-delete-item" method="POST")
+            input(type="hidden" name="_csrf" value=csrfToken)
             input(type="hidden" value=products.productId._id name="productId")
             button.btn.danger(type="submit") Delete
       hr
-      form(action="/create-order" method="POST") 
+      form(action="/create-order" method="POST")
+        input(type="hidden" name="_csrf" value=csrfToken)
         button.btn(type="submit") Order Now
   else
     h3 Empty item

@@ -22,4 +22,6 @@ header.main-header
             a(href="/signup" class={active : path === '/signup'}) Signup
         else
           li.main-header__item
-            a(href="/logout") logout
+            form(action="/logout" method="post")
+              input(type="hidden" name="_csrf" value=csrfToken)
+              button(type="submit") logout

@@ -86,7 +86,7 @@ const shop = {
       });
       const order = new Order({
         user: {
-          name: req.session.user.name,
+          email: req.session.user.email,
           userId: req.session.user,
         },
         products,

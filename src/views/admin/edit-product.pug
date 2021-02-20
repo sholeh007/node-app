@@ -3,6 +3,7 @@ extends ../layout/main
 block content
   main
     form.product-form(action=editing ? '/admin/updateProduct' : '/admin/add-product' , method="post")
+      input(type="hidden" name="_csrf" value=csrfToken)
       if editing
         input(type="hidden" value=product._id name='id')
       .form-control
