@@ -52,6 +52,7 @@ class Auth {
     res.render("auth/signup", {
       path: "/signup",
       title: "Signup",
+      message: req.flash("error"),
     });
   }
 
@@ -60,7 +61,10 @@ class Auth {
     const password = req.body.password;
     try {
       const user = await User.findOne({ email });
-      if (user) return res.redirect("/signup");
+      if (user) {
+        req.flash("error", "email is already in use ");
+        return res.redirect("/signup");
+      }
 
       //encrypt password
       const hashPassword = await bcrypt.hash(password, 12);
