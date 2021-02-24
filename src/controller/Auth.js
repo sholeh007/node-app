@@ -6,7 +6,6 @@ class Auth {
     res.render("auth/login", {
       path: "/login",
       title: "Login",
-      message: req.flash("error"),
     });
   }
 
