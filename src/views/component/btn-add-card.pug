@@ -1,5 +1,4 @@
-if isLogin
-  form(action="/cart" method="post")
-    input(type="hidden" name="_csrf" value=csrfToken)
-    input(type='hidden' name="id" value=products._id)
-    button.btn(type="submit") Add to Card
+form(action="/cart" method="post")
+  input(type="hidden" name="_csrf" value=csrfToken)
+  input(type='hidden' name="id" value=products._id)
+  button.btn(type="submit") Add to Card

@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import session from "express-session";
 import csrf from "csurf";
+import flash from "connect-flash";
 import connectMongoDBSession from "connect-mongodb-session";
 import adminRoute from "../src/routes/admin.js";
 import shopRoute from "../src/routes/shop.js";
@@ -31,6 +32,7 @@ app.use(
   })
 );
 app.use(csrfProtection);
+app.use(flash());
 
 app.use(async (req, res, next) => {
   if (!req.session.user) return next();
