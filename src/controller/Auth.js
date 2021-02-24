@@ -1,8 +1,7 @@
 import User from "../model/userModel.js";
 import bcrypt from "bcryptjs";
 class Auth {
-  static getIndex(req, res) {
-    console.log(req.flash("error"));
+  static async getIndex(req, res) {
     res.render("auth/login", {
       path: "/login",
       title: "Login",
