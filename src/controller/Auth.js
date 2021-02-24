@@ -5,6 +5,7 @@ class Auth {
     res.render("auth/login", {
       path: "/login",
       title: "Login",
+      message: req.flash("error"),
     });
   }
 
@@ -25,12 +26,14 @@ class Auth {
               console.log(err);
             });
           } else {
+            req.flash("error", "password not found!");
             res.redirect("/login");
           }
         } catch (e) {
           console.log(e);
         }
       } else {
+        req.flash("error", "email not found!");
         res.redirect("/login");
       }
     } catch (e) {

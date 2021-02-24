@@ -2,6 +2,8 @@ extends ../layout/main
 
 block content
   main
+    if message 
+      p #{message}
     form.login-form(action='/login', method="post")
       input(type="hidden" name="_csrf" value=csrfToken)
       .form-control
