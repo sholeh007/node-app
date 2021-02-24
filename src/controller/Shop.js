@@ -42,13 +42,7 @@ const shop = {
   },
   getCart: async (req, res) => {
     try {
-      if (!req.session.login) {
-        req.flash("error", "you must login!");
-        req.session.save((err) => {
-          if (!err) return res.redirect("/login");
-          console.log(err);
-        });
-      }
+      if (!req.session.login) return res.redirect("/login");
       const user = await req.user
         .populate("cart.items.productId")
         .execPopulate();
