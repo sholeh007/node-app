@@ -1,5 +1,6 @@
 import User from "../model/userModel.js";
 import bcrypt from "bcryptjs";
+import transport from "../../config/email.js";
 class Auth {
   static async getIndex(req, res) {
     res.render("auth/login", {
@@ -56,7 +57,8 @@ class Auth {
     });
   }
 
-  async signup(req, res) {
+  // gunakan arrow function supaya bisa memanggil method lain
+  signup = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     try {
@@ -74,10 +76,28 @@ class Auth {
         password: hashPassword,
         cart: { items: [] },
       });
-      await newUser.save();
       res.redirect("/login");
+      const newUsr = newUser.save();
+      const send = this.sendingEmail(email);
+      await newUsr;
+      await send;
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  async sendingEmail(email) {
+    const mailOptions = {
+      from: "shop@nodeShop.com",
+      to: email,
+      subject: "Signup complete",
+      html: "<p>Hello, welcome</p>",
+    };
+    try {
+      const send = await transport.sendMail(mailOptions);
+      return send;
+    } catch (e) {
+      console.log(e);
     }
   }
 }

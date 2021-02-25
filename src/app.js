@@ -9,7 +9,7 @@ import shopRoute from "../src/routes/shop.js";
 import authRoute from "../src/routes/auth.js";
 import errorController from "./controller/Error.js";
 import User from "./model/userModel.js";
-import koneksi from "./data/database.js";
+import koneksi from "../config/database.js";
 
 dotenv.config();
 const app = express();
