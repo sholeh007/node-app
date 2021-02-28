@@ -52,6 +52,8 @@ app.set("views", "src/views");
 app.use((req, res, next) => {
   res.locals.isLogin = req.session.login;
   res.locals.csrfToken = req.csrfToken();
+  if (!req.user) return next();
+  res.locals.roleUser = req.user.role;
   next();
 });
 

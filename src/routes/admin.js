@@ -6,6 +6,7 @@ const Router = express.Router();
 const admin = new adminController(); //pewarisan class
 
 Router.use(middleware.protectRoute);
+Router.use(middleware.adminArea);
 Router.route("/add-product")
   .get(adminController.getAddProduct)
   .post(admin.addProduct);
