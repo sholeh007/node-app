@@ -49,6 +49,7 @@ app.use(async (req, res, next) => {
 app.set("view engine", "pug");
 app.set("views", "src/views");
 
+// create variable local
 app.use((req, res, next) => {
   res.locals.isLogin = req.session.login;
   res.locals.csrfToken = req.csrfToken();
