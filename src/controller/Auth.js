@@ -1,6 +1,7 @@
-import User from "../model/userModel.js";
+import { validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import User from "../model/userModel.js";
 import transport from "../../config/email.js";
 class Auth {
   static async getIndex(req, res) {
@@ -14,6 +15,16 @@ class Auth {
   async login(req, res) {
     const email = req.body.email;
     const password = req.body.password;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.render("auth/login", {
+        path: "/login",
+        title: "Login",
+        message: errors.array()[0].msg,
+      });
+    }
+
     try {
       const user = await User.findOne({ email });
       if (user) {
@@ -64,14 +75,17 @@ class Auth {
     const password = req.body.password;
     const subject = "Sign Up Successfully";
     const body = "<p>Success signup</p>";
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.render("auth/signup", {
+        path: "/signup",
+        title: "Signup",
+        message: errors.array()[0].msg,
+      });
+    }
 
     try {
-      const user = await User.findOne({ email });
-      if (user) {
-        req.flash("error", "email is already in use ");
-        return res.redirect("/signup");
-      }
-
       //encrypt password
       const hashPassword = await bcrypt.hash(password, 12);
       const newUser = new User({
