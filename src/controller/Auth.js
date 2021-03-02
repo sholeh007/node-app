@@ -18,7 +18,7 @@ class Auth {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.render("auth/login", {
+      return res.status(422).render("auth/login", {
         path: "/login",
         title: "Login",
         message: errors.array()[0].msg,
@@ -62,7 +62,7 @@ class Auth {
   }
 
   static getSignup(req, res) {
-    res.render("auth/signup", {
+    res.status(422).render("auth/signup", {
       path: "/signup",
       title: "Signup",
       message: req.flash("error"),
@@ -78,7 +78,7 @@ class Auth {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.render("auth/signup", {
+      return res.status(422).render("auth/signup", {
         path: "/signup",
         title: "Signup",
         message: errors.array()[0].msg,
