@@ -8,7 +8,7 @@ block content
       input(type="hidden" name="_csrf" value=csrfToken)
       .form-control
         label(for="email") E-mail
-        input(type="email" name="email" value=oldInput id="email" required)
+        input(type="email" name="email" value=oldInput('email') id="email" required)
       .form-control
         label(for="password") password
         input(type="password" name="password" id="password" required)

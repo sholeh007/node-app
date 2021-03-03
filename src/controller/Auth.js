@@ -9,7 +9,6 @@ class Auth {
       path: "/login",
       title: "Login",
       message: req.flash("error"),
-      oldInput: "",
     });
   }
 
@@ -23,7 +22,6 @@ class Auth {
         path: "/login",
         title: "Login",
         message: errors.array()[0].msg,
-        oldInput: email,
       });
     }
 
@@ -68,7 +66,6 @@ class Auth {
       path: "/signup",
       title: "Signup",
       message: req.flash("error"),
-      oldInput: "",
     });
   }
 
@@ -85,7 +82,6 @@ class Auth {
         path: "/signup",
         title: "Signup",
         message: errors.array()[0].msg,
-        oldInput: email,
       });
     }
 
