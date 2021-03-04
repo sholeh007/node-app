@@ -1,13 +1,16 @@
+import { validationResult } from "express-validator";
 import Products from "../model/productModel.js";
 class product {
   static getAddProduct(req, res) {
     res.render("admin/edit-product", {
       title: "add product",
       path: "/admin/add-product",
+      errorValidation: [],
     });
   }
 
   async addProduct(req, res) {
+    const errors = validationResult(req);
     const data = {
       title: req.body.title,
       price: req.body.price,
@@ -15,6 +18,15 @@ class product {
       imageUrl: req.body.imageUrl,
       userId: req.user,
     };
+
+    if (!errors.isEmpty()) {
+      console.log(errors.array());
+      return res.render("admin/edit-product", {
+        path: "/admin/add-product",
+        title: "add product",
+        errorValidation: errors.array(),
+      });
+    }
 
     try {
       const Product = new Products(data);

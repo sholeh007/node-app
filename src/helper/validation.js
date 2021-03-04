@@ -34,6 +34,12 @@ const validation = {
       .isLength({ min: 5 })
       .isAlphanumeric(),
   ],
+  product: [
+    check("title", "only contain alphabet").isAlpha(),
+    check("imageUrl").trim().isURL().withMessage("image not valid url"),
+    check("price", "only contain number").trim().isInt().isNumeric(),
+    check("description").isString(),
+  ],
 };
 
 export default validation;
