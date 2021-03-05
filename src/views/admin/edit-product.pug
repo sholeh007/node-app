@@ -10,20 +10,14 @@ block content
         input(type="hidden" value=product._id name='id')
       .form-control
         label(for="title") Title
-        input(type="text" name="title" id="title" value=editing ? product.title : errorValidation ? oldInput('title') : '' required)
+        input(type="text" class={invalid : errorValidation.find(e => e.param === 'title')} name="title" id="title" value=editing ? product.title : errorValidation ? oldInput('title') : '' required)
       .form-control
         label(for="imageUrl") ImageUrl
-        input(type="text" name="imageUrl" id="imageUrl" value=editing ? product.imageUrl : errorValidation ? oldInput('imageUrl') : '' required)
+        input(type="text" class={invalid : errorValidation.find(e => e.param === 'imageUrl')} name="imageUrl" id="imageUrl" value=editing ? product.imageUrl : errorValidation ? oldInput('imageUrl') : '' required)
       .form-control
         label(for="price") Price
-        input(type="number" name="price" id="price" value=editing ? product.price : errorValidation ? oldInput('price') : '' required)
+        input(type="number" class={invalid : errorValidation.find(e => e.param === 'price')} name="price" id="price" value=editing ? product.price : errorValidation ? oldInput('price') : '' required)
       .form-control
         label(for="description") Description
-        if editing
-          textarea(name="description" rows="5" id="description") #{product.description}
-        else
-          textarea(name="description" rows="5" id="description" required)
-      if editing
-        button.btn(type="submit") Edit Product
-      else
-        button.btn(type="submit") Add Product
+        textarea(name="description" class={invalid : errorValidation.find(e => e.param === 'description')} rows="5" id="description") #{editing ? product.description : errorValidation ? oldInput('description') : ''}
+      button.btn(type="submit") #{editing ? 'Edit Product' : 'Add Product'}

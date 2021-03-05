@@ -35,10 +35,16 @@ const validation = {
       .isAlphanumeric(),
   ],
   product: [
-    check("title", "only contain alphabet").isAlpha(),
-    check("imageUrl").trim().isURL().withMessage("image not valid url"),
-    check("price", "only contain number").trim().isInt().isNumeric(),
-    check("description").isString(),
+    check("title", "title to short")
+      .trim()
+      .isString()
+      .withMessage("only alphabet and number")
+      .isLength({ min: 5 }),
+    check("imageUrl", "image url not valid").trim().isURL(),
+    check("price", "only contain number").trim().isNumeric(),
+    check("description", "description to short or to long")
+      .trim()
+      .isLength({ min: 8, max: 200 }),
   ],
 };
 

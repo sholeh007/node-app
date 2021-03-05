@@ -20,8 +20,7 @@ class product {
     };
 
     if (!errors.isEmpty()) {
-      console.log(errors.array());
-      return res.render("admin/edit-product", {
+      return res.status(422).render("admin/edit-product", {
         path: "/admin/add-product",
         title: "add product",
         errorValidation: errors.array(),
@@ -52,8 +51,9 @@ class product {
 
   async editProduct(req, res) {
     const editMode = req.query.edit;
-    if (editMode !== "true") return res.redirect("/admin/products");
     const productId = req.params.id;
+
+    if (editMode !== "true") return res.redirect("/admin/products");
 
     try {
       const product = await Products.findById(productId);
@@ -63,6 +63,7 @@ class product {
         title: "edit product",
         path: "/admin/edit-product",
         editing: editMode,
+        errorValidation: [],
       });
     } catch (err) {
       console.log(err);
@@ -75,6 +76,23 @@ class product {
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const description = req.body.description;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).render("admin/edit-product", {
+        product: {
+          _id: id,
+          title,
+          imageUrl,
+          price,
+          description,
+        },
+        path: "/admin/edit-product",
+        title: "edit product",
+        editing: true,
+        errorValidation: errors.array(),
+      });
+    }
 
     try {
       let product = await Products.findById(id);
