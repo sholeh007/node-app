@@ -11,7 +11,9 @@ const shop = {
         path: "/",
       });
     } catch (err) {
-      console.error(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   },
   getProduct: async (req, res) => {
@@ -23,7 +25,9 @@ const shop = {
         path: "/products",
       });
     } catch (err) {
-      console.error(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   },
   getDetail: async (req, res) => {
@@ -37,7 +41,9 @@ const shop = {
         path: "/products",
       });
     } catch (err) {
-      console.error(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   },
   getCart: async (req, res) => {
@@ -53,7 +59,9 @@ const shop = {
         title: "Your Cart",
       });
     } catch (err) {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   },
   addCart: async (req, res) => {
@@ -100,7 +108,9 @@ const shop = {
 
       res.redirect("/order");
     } catch (err) {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   },
   getOrder: async (req, res) => {
@@ -112,7 +122,9 @@ const shop = {
         title: "Your Order",
       });
     } catch (err) {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   },
 };

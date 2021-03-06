@@ -9,7 +9,7 @@ class product {
     });
   }
 
-  async addProduct(req, res) {
+  async addProduct(req, res, next) {
     const errors = validationResult(req);
     const data = {
       title: req.body.title,
@@ -32,11 +32,13 @@ class product {
       await Product.save();
       res.redirect("/admin/products");
     } catch (err) {
-      console.error(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   }
 
-  async getProduct(req, res) {
+  async getProduct(req, res, next) {
     try {
       const product = await Products.find();
       res.render("admin/list-product", {
@@ -45,7 +47,7 @@ class product {
         title: "Admin Products",
       });
     } catch (err) {
-      console.error(err);
+      res.redirect("/500");
     }
   }
 
@@ -66,7 +68,7 @@ class product {
         errorValidation: [],
       });
     } catch (err) {
-      console.log(err);
+      res.redirect("/500");
     }
   }
 
@@ -103,7 +105,9 @@ class product {
       product = await product.save();
       res.redirect("/admin/products");
     } catch (err) {
-      console.error(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   }
 
@@ -114,7 +118,9 @@ class product {
       await Products.findByIdAndDelete(id);
       res.redirect("/admin/products");
     } catch (err) {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   }
 }

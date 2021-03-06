@@ -1,4 +1,3 @@
-/* jshint esversion: 8 */
 import express from "express";
 import dotenv from "dotenv";
 import session from "express-session";
@@ -43,7 +42,7 @@ app.use(async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    throw new Error(err);
+    next(new Error(err));
   }
 });
 
@@ -67,7 +66,11 @@ app.use(shopRoute); //main route
 app.use("/admin", adminRoute);
 app.use(authRoute);
 
+app.get("/500", errorController[500]);
 app.use(errorController[404]);
+app.use((error, req, res, next) => {
+  res.redirect("/500");
+});
 
 koneksi(() => {
   app.listen(process.env.APP_PORT);

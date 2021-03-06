@@ -45,14 +45,18 @@ class Auth {
             res.redirect("/login");
           }
         } catch (e) {
-          console.log(e);
+          const error = new Error(err);
+          error.httpStatusCode = 500;
+          return next(error);
         }
       } else {
         req.flash("error", "email not found!");
         res.redirect("/login");
       }
     } catch (e) {
-      console.error(e);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   }
 
@@ -103,7 +107,9 @@ class Auth {
       await newUsr;
       await send;
     } catch (err) {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   };
 
@@ -162,7 +168,9 @@ class Auth {
           }
         })
         .catch((err) => {
-          console.log(err);
+          const error = new Error(err);
+          error.httpStatusCode = 500;
+          return next(error);
         });
     });
   };
@@ -187,7 +195,9 @@ class Auth {
         userId: verifyUser._id.toString(),
       });
     } catch (err) {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   }
 
@@ -213,7 +223,9 @@ class Auth {
         console.log(err);
       }
     } catch (err) {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     }
   }
 }
