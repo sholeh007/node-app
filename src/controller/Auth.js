@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import User from "../model/userModel.js";
 import transport from "../../config/email.js";
+import errorHandling from "../helper/errorHandling.js";
 class Auth {
   static async getIndex(req, res) {
     res.render("auth/login", {
@@ -45,18 +46,14 @@ class Auth {
             res.redirect("/login");
           }
         } catch (e) {
-          const error = new Error(err);
-          error.httpStatusCode = 500;
-          return next(error);
+          console.log(e);
         }
       } else {
         req.flash("error", "email not found!");
         res.redirect("/login");
       }
-    } catch (e) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+    } catch (err) {
+      errorHandling.error500(err);
     }
   }
 
@@ -107,9 +104,7 @@ class Auth {
       await newUsr;
       await send;
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   };
 
@@ -168,9 +163,7 @@ class Auth {
           }
         })
         .catch((err) => {
-          const error = new Error(err);
-          error.httpStatusCode = 500;
-          return next(error);
+          errorHandling.error500(err);
         });
     });
   };
@@ -195,9 +188,7 @@ class Auth {
         userId: verifyUser._id.toString(),
       });
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   }
 
@@ -223,9 +214,7 @@ class Auth {
         console.log(err);
       }
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   }
 }

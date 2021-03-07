@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import session from "express-session";
 import csrf from "csurf";
+import multer from "multer";
 import flash from "connect-flash-plus";
 import connectMongoDBSession from "connect-mongodb-session";
 import adminRoute from "../src/routes/admin.js";
@@ -19,9 +20,30 @@ const store = new mongoDBStore({
   collection: "sessions",
 });
 const csrfProtection = csrf();
+//config file upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/image");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "-" + Date.now());
+  },
+});
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(multer({ storage, fileFilter }).single("image"));
 app.use(express.static("public"));
 app.use(
   session({

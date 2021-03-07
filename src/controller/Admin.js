@@ -1,11 +1,13 @@
 import { validationResult } from "express-validator";
 import Products from "../model/productModel.js";
+import errorHandling from "../helper/errorHandling.js";
 class product {
   static getAddProduct(req, res) {
     res.render("admin/edit-product", {
       title: "add product",
       path: "/admin/add-product",
       errorValidation: [],
+      message: "",
     });
   }
 
@@ -15,26 +17,36 @@ class product {
       title: req.body.title,
       price: req.body.price,
       description: req.body.description,
-      imageUrl: req.body.image,
+      imageUrl: req.file,
       userId: req.user,
     };
+
+    if (!data.imageUrl) {
+      return res.status(422).render("admin/edit-product", {
+        path: "/admin/add-product",
+        title: "add product",
+        errorValidation: [],
+        message: "file is not image",
+      });
+    }
 
     if (!errors.isEmpty()) {
       return res.status(422).render("admin/edit-product", {
         path: "/admin/add-product",
         title: "add product",
         errorValidation: errors.array(),
+        message: errors.array()[0].msg,
       });
     }
+
+    data.imageUrl = data.imageUrl.path;
 
     try {
       const Product = new Products(data);
       await Product.save();
       res.redirect("/admin/products");
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   }
 
@@ -47,7 +59,7 @@ class product {
         title: "Admin Products",
       });
     } catch (err) {
-      res.redirect("/500");
+      errorHandling.error500(err);
     }
   }
 
@@ -66,16 +78,17 @@ class product {
         path: "/admin/edit-product",
         editing: editMode,
         errorValidation: [],
+        message: "",
       });
     } catch (err) {
-      res.redirect("/500");
+      errorHandling.error500(err);
     }
   }
 
   async updateProduct(req, res) {
     const id = req.body.id;
     const title = req.body.title;
-    const imageUrl = req.body.imageUrl;
+    const imageUrl = req.file;
     const price = req.body.price;
     const description = req.body.description;
     const errors = validationResult(req);
@@ -85,7 +98,6 @@ class product {
         product: {
           _id: id,
           title,
-          imageUrl,
           price,
           description,
         },
@@ -93,6 +105,7 @@ class product {
         title: "edit product",
         editing: true,
         errorValidation: errors.array(),
+        message: errors.array()[0].msg,
       });
     }
 
@@ -100,14 +113,14 @@ class product {
       let product = await Products.findById(id);
       product.title = title;
       product.price = price;
-      product.imageUrl = imageUrl;
+      if (imageUrl) {
+        product.image = imageUrl.path;
+      }
       product.description = description;
       product = await product.save();
       res.redirect("/admin/products");
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   }
 
@@ -118,9 +131,7 @@ class product {
       await Products.findByIdAndDelete(id);
       res.redirect("/admin/products");
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   }
 }

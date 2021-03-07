@@ -1,5 +1,6 @@
 import Products from "../model/productModel.js";
 import Order from "../model/orderModel.js";
+import errorHandling from "../helper/errorHandling.js";
 
 const shop = {
   getIndex: async (req, res) => {
@@ -11,9 +12,7 @@ const shop = {
         path: "/",
       });
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   },
   getProduct: async (req, res) => {
@@ -25,9 +24,7 @@ const shop = {
         path: "/products",
       });
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   },
   getDetail: async (req, res) => {
@@ -41,9 +38,7 @@ const shop = {
         path: "/products",
       });
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   },
   getCart: async (req, res) => {
@@ -59,9 +54,7 @@ const shop = {
         title: "Your Cart",
       });
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   },
   addCart: async (req, res) => {
@@ -108,9 +101,7 @@ const shop = {
 
       res.redirect("/order");
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   },
   getOrder: async (req, res) => {
@@ -122,9 +113,7 @@ const shop = {
         title: "Your Order",
       });
     } catch (err) {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+      errorHandling.error500(err);
     }
   },
 };
