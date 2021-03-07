@@ -4,16 +4,19 @@ block content
   main
     if errorValidation.length 
       .user-message.user-message--error #{errorValidation[0].msg}
-    form.product-form(action=editing ? '/admin/updateProduct' : '/admin/add-product' , method="post")
+    form.product-form(action=editing ? '/admin/updateProduct' : '/admin/add-product' , method="post" enctype="multipart/form-data")
       input(type="hidden" name="_csrf" value=csrfToken)
       if editing
         input(type="hidden" value=product._id name='id')
       .form-control
         label(for="title") Title
         input(type="text" class={invalid : errorValidation.find(e => e.param === 'title')} name="title" id="title" value=editing ? product.title : errorValidation ? oldInput('title') : '' required)
+      //- .form-control
+      //-   label(for="imageUrl") ImageUrl
+      //-   input(type="text" class={invalid : errorValidation.find(e => e.param === 'imageUrl')} name="imageUrl" id="imageUrl" value=editing ? product.imageUrl : errorValidation ? oldInput('imageUrl') : '' required)
       .form-control
-        label(for="imageUrl") ImageUrl
-        input(type="text" class={invalid : errorValidation.find(e => e.param === 'imageUrl')} name="imageUrl" id="imageUrl" value=editing ? product.imageUrl : errorValidation ? oldInput('imageUrl') : '' required)
+        label(for="image") Image
+        input(type="file" name="image" id="image" )
       .form-control
         label(for="price") Price
         input(type="number" class={invalid : errorValidation.find(e => e.param === 'price')} name="price" id="price" value=editing ? product.price : errorValidation ? oldInput('price') : '' required)

@@ -15,7 +15,7 @@ class product {
       title: req.body.title,
       price: req.body.price,
       description: req.body.description,
-      imageUrl: req.body.imageUrl,
+      imageUrl: req.body.image,
       userId: req.user,
     };
 

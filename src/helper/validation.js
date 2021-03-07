@@ -40,7 +40,6 @@ const validation = {
       .isString()
       .withMessage("only alphabet and number")
       .isLength({ min: 5 }),
-    check("imageUrl", "image url not valid").trim().isURL(),
     check("price", "only contain number").trim().isNumeric(),
     check("description", "description to short or to long")
       .trim()
