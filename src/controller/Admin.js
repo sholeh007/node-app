@@ -1,4 +1,5 @@
 import { validationResult } from "express-validator";
+import fs from "fs/promises";
 import Products from "../model/productModel.js";
 import errorHandling from "../helper/errorHandling.js";
 class product {
@@ -26,17 +27,22 @@ class product {
         path: "/admin/add-product",
         title: "add product",
         errorValidation: [],
-        message: "file is not image",
+        message: "attachmet file image",
       });
     }
 
     if (!errors.isEmpty()) {
-      return res.status(422).render("admin/edit-product", {
-        path: "/admin/add-product",
-        title: "add product",
-        errorValidation: errors.array(),
-        message: errors.array()[0].msg,
-      });
+      try {
+        await fs.unlink(data.imageUrl.path);
+        return res.status(422).render("admin/edit-product", {
+          path: "/admin/add-product",
+          title: "add product",
+          errorValidation: errors.array(),
+          message: errors.array()[0].msg,
+        });
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     data.imageUrl = data.imageUrl.path.replace(/\\/g, "/");
@@ -95,19 +101,24 @@ class product {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(422).render("admin/edit-product", {
-        product: {
-          _id: id,
-          title,
-          price,
-          description,
-        },
-        path: "/admin/edit-product",
-        title: "edit product",
-        editing: true,
-        errorValidation: errors.array(),
-        message: errors.array()[0].msg,
-      });
+      try {
+        await fs.unlink(imageUrl.path);
+        return res.status(422).render("admin/edit-product", {
+          product: {
+            _id: id,
+            title,
+            price,
+            description,
+          },
+          path: "/admin/edit-product",
+          title: "edit product",
+          editing: true,
+          errorValidation: errors.array(),
+          message: errors.array()[0].msg,
+        });
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     try {
@@ -128,8 +139,10 @@ class product {
 
   async deleteProduct(req, res, next) {
     const id = req.body.id;
+    const image = req.body.image;
 
     try {
+      await fs.unlink("public" + image);
       await Products.findByIdAndDelete(id);
       res.redirect("/admin/products");
     } catch (err) {
