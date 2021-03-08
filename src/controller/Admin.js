@@ -39,14 +39,15 @@ class product {
       });
     }
 
-    data.imageUrl = data.imageUrl.path;
+    data.imageUrl = data.imageUrl.path.replace(/\\/g, "/");
+    data.imageUrl = data.imageUrl.replace("public", "");
 
     try {
       const Product = new Products(data);
       await Product.save();
       res.redirect("/admin/products");
     } catch (err) {
-      errorHandling.error500(err);
+      errorHandling.error500(err, next);
     }
   }
 
@@ -59,11 +60,11 @@ class product {
         title: "Admin Products",
       });
     } catch (err) {
-      errorHandling.error500(err);
+      errorHandling.error500(err, next);
     }
   }
 
-  async editProduct(req, res) {
+  async editProduct(req, res, next) {
     const editMode = req.query.edit;
     const productId = req.params.id;
 
@@ -81,11 +82,11 @@ class product {
         message: "",
       });
     } catch (err) {
-      errorHandling.error500(err);
+      errorHandling.error500(err, next);
     }
   }
 
-  async updateProduct(req, res) {
+  async updateProduct(req, res, next) {
     const id = req.body.id;
     const title = req.body.title;
     const imageUrl = req.file;
@@ -114,24 +115,25 @@ class product {
       product.title = title;
       product.price = price;
       if (imageUrl) {
-        product.image = imageUrl.path;
+        product.imageUrl = imageUrl.path.replace(/\\/g, "/");
+        product.imageUrl = product.imageUrl.replace("public", "");
       }
       product.description = description;
       product = await product.save();
-      res.redirect("/admin/products");
+      return res.redirect("/admin/products");
     } catch (err) {
-      errorHandling.error500(err);
+      errorHandling.error500(err, next);
     }
   }
 
-  async deleteProduct(req, res) {
+  async deleteProduct(req, res, next) {
     const id = req.body.id;
 
     try {
       await Products.findByIdAndDelete(id);
       res.redirect("/admin/products");
     } catch (err) {
-      errorHandling.error500(err);
+      errorHandling.error500(err, next);
     }
   }
 }
