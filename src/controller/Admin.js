@@ -102,7 +102,9 @@ class product {
 
     if (!errors.isEmpty()) {
       try {
-        await fs.unlink(imageUrl.path);
+        if (imageUrl) {
+          await fs.unlink(imageUrl.path);
+        }
         return res.status(422).render("admin/edit-product", {
           product: {
             _id: id,
@@ -126,8 +128,13 @@ class product {
       product.title = title;
       product.price = price;
       if (imageUrl) {
-        product.imageUrl = imageUrl.path.replace(/\\/g, "/");
-        product.imageUrl = product.imageUrl.replace("public", "");
+        try {
+          await fs.unlink("public" + product.imageUrl);
+          product.imageUrl = imageUrl.path.replace(/\\/g, "/");
+          product.imageUrl = product.imageUrl.replace("public", "");
+        } catch (e) {
+          console.log(e);
+        }
       }
       product.description = description;
       product = await product.save();
