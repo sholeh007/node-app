@@ -18,4 +18,6 @@ Route.post(
 );
 Route.post("/create-order", middleware.protectRoute, shopController.addOrder);
 Route.get("/order", middleware.protectRoute, shopController.getOrder);
+Route.get("/invoice/:id", middleware.protectRoute, shopController.getPdf);
+
 export default Route;
