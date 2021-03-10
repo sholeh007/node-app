@@ -1,5 +1,5 @@
-import fs from "fs/promises";
 import path from "path";
+import PDFDocument from "pdfkit";
 import dirname from "../helper/path.js";
 import Products from "../model/productModel.js";
 import Order from "../model/orderModel.js";
@@ -119,17 +119,37 @@ const shop = {
       errorHandling.error500(err);
     }
   },
-  getPdf: async (req, res) => {
+  getPdf: async (req, res, next) => {
     const id = req.params.id;
-    const filePath = path.join(dirname, "..", "data", "invoice.pdf");
     try {
-      const file = await fs.readFile(filePath);
-      res.set("Content-Type", "application/pdf");
-      res.set("Content-Disposition", 'inline; filename="invoice.pdf"'); //ini pratinjau di web
-      // res.attachment(`invoice-${id}.pdf`); //ini langsung download
-      res.send(file);
+      const order = await Order.findById(id);
+      const userId = order.user.userId;
+
+      if (!order) return next(new Error("No order found!"));
+      if (userId.toString() !== req.user._id.toString()) {
+        return next(new Error("forbidden"));
+      }
+      try {
+        // digunakan kalau file static
+        // const filePath = path.join(dirname, "..", "data", "invoice.pdf");
+        // res.set("Content-Type", "application/pdf");
+        // res.set("Content-Disposition", 'inline; filename="invoice.pdf"'); //ini pratinjau di web
+        // // res.attachment(`invoice-${id}.pdf`); //ini langsung download
+        // res.sendFile(filePath);
+
+        //dinamis
+        const doc = new PDFDocument();
+        res.set("Content-Type", "application/pdf");
+        res.set("Content-Disposition", 'inline; filename="invoice.pdf"'); //ini pratinjau di web
+        doc.pipe(res);
+
+        doc.text("Hello World");
+        doc.end();
+      } catch (err) {
+        console.log(err);
+      }
     } catch (err) {
-      console.log(err);
+      errorHandling.error500(err, next);
     }
   },
 };

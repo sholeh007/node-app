@@ -6,7 +6,7 @@ const error = {
   },
   500: (req, res) => {
     return res.status(500).render("500", {
-      title: "server error",
+      title: "error",
     });
   },
 };
