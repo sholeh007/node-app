@@ -1,6 +1,4 @@
-import path from "path";
 import PDFDocument from "pdfkit";
-import dirname from "../helper/path.js";
 import Products from "../model/productModel.js";
 import Order from "../model/orderModel.js";
 import errorHandling from "../helper/errorHandling.js";
@@ -139,11 +137,27 @@ const shop = {
 
         //dinamis
         const doc = new PDFDocument();
+        let total = 0;
         res.set("Content-Type", "application/pdf");
         res.set("Content-Disposition", 'inline; filename="invoice.pdf"'); //ini pratinjau di web
         doc.pipe(res);
 
-        doc.text("Hello World");
+        doc.fontSize(26).text("Invoice", { align: "center", underline: true });
+        doc.text("---------------------------------", { align: "center" });
+
+        order.products.forEach((item) => {
+          total += item.quantity * item.product.price;
+          doc.fontSize(16);
+          doc.moveDown();
+          doc.text(
+            `Title: ${item.product.title} - Price: ${
+              item.quantity
+            } x Rp.${new Intl.NumberFormat("ID").format(item.product.price)}`
+          );
+        });
+
+        doc.moveDown();
+        doc.text("Total: Rp." + new Intl.NumberFormat("ID").format(total));
         doc.end();
       } catch (err) {
         console.log(err);
