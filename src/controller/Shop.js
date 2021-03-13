@@ -2,27 +2,43 @@ import PDFDocument from "pdfkit";
 import Products from "../model/productModel.js";
 import Order from "../model/orderModel.js";
 import errorHandling from "../helper/errorHandling.js";
+import helpPagination from "../helper/cotrolPagination.js";
 
 const shop = {
   getIndex: async (req, res) => {
+    const page = +req.query.page || 1; //change string to number
     try {
-      const product = await Products.find();
+      const pagination = await helpPagination(page, 6);
+
       res.render("shop/index", {
-        product,
+        product: pagination.product,
         title: "Shop",
         path: "/",
+        currentPage: pagination.currentPage,
+        hasNextPage: pagination.hasNextPage,
+        nextPage: pagination.nextPage,
+        hasPreviousPage: pagination.previousPage,
+        previousPage: pagination.previousPage,
+        lastPage: pagination.lastPage,
       });
     } catch (err) {
       errorHandling.error500(err);
     }
   },
   getProduct: async (req, res) => {
+    const page = +req.query.page || 1; //change string to number
     try {
-      const product = await Products.find();
+      const pagination = await helpPagination(page, 6);
       res.render("shop/product-list", {
-        product,
+        product: pagination.product,
         title: "Product List",
         path: "/products",
+        currentPage: pagination.currentPage,
+        hasNextPage: pagination.hasNextPage,
+        nextPage: pagination.nextPage,
+        hasPreviousPage: pagination.previousPage,
+        previousPage: pagination.previousPage,
+        lastPage: pagination.lastPage,
       });
     } catch (err) {
       errorHandling.error500(err);
