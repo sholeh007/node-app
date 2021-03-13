@@ -15,6 +15,6 @@ Router.route("/add-product")
 Router.get("/products", admin.getProduct);
 Router.get("/edit-product/:id", admin.editProduct);
 Router.post("/updateProduct", validation.product, admin.updateProduct);
-Router.post("/delete", admin.deleteProduct);
+Router.delete("/product/:productId", admin.deleteProduct);
 
 export default Router;

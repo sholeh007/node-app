@@ -145,15 +145,15 @@ class product {
   }
 
   async deleteProduct(req, res, next) {
-    const id = req.body.id;
-    const image = req.body.image;
+    const id = req.params.productId;
 
     try {
-      await fs.unlink("public" + image);
-      await Products.findByIdAndDelete(id);
-      res.redirect("/admin/products");
+      const product = await Products.findById(id);
+      await fs.unlink("public" + product.imageUrl);
+      await Products.deleteOne({ _id: id, userId: req.user._id });
+      res.status(200).json({ message: "Success" });
     } catch (err) {
-      errorHandling.error500(err, next);
+      res.status(500).json({ message: "Failed" });
     }
   }
 }
