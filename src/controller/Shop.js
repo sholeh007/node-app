@@ -49,7 +49,7 @@ const shop = {
 
     try {
       const productDetail = await Products.findById(id);
-      await res.render("shop/detail", {
+      res.render("shop/detail", {
         title: "Detail product",
         products: productDetail,
         path: "/products",
@@ -132,6 +132,13 @@ const shop = {
     } catch (err) {
       errorHandling.error500(err);
     }
+  },
+  getCheckout: async (req, res) => {
+    res.render("shop/checkout", {
+      products,
+      title: "Checkout",
+      path: "/products",
+    });
   },
   getPdf: async (req, res, next) => {
     const id = req.params.id;
