@@ -1,5 +1,4 @@
 import express from "express";
-import dotenv from "dotenv";
 import session from "express-session";
 import csrf from "csurf";
 import multer from "multer";
@@ -12,7 +11,6 @@ import errorController from "./controller/Error.js";
 import User from "./model/userModel.js";
 import koneksi from "../config/database.js";
 
-dotenv.config();
 const app = express();
 const mongoDBStore = connectMongoDBSession(session);
 const store = new mongoDBStore({
@@ -95,5 +93,5 @@ app.use((error, req, res, next) => {
 });
 
 koneksi(() => {
-  app.listen(process.env.APP_PORT);
+  app.listen(process.env.APP_PORT || 3000);
 });
