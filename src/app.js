@@ -3,6 +3,7 @@ import session from "express-session";
 import csrf from "csurf";
 import multer from "multer";
 import flash from "connect-flash-plus";
+import helmet from "helmet";
 import connectMongoDBSession from "connect-mongodb-session";
 import adminRoute from "../src/routes/admin.js";
 import shopRoute from "../src/routes/shop.js";
@@ -39,6 +40,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(multer({ storage, fileFilter }).single("image"));
