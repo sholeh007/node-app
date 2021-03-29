@@ -1,10 +1,12 @@
 import express from "express";
+import fs from "fs";
+import path from "path";
 import session from "express-session";
 import csrf from "csurf";
-import multer from "multer";
 import flash from "connect-flash-plus";
 import helmet from "helmet";
 import compression from "compression";
+import morgan from "morgan";
 import connectMongoDBSession from "connect-mongodb-session";
 import adminRoute from "../src/routes/admin.js";
 import shopRoute from "../src/routes/shop.js";
@@ -12,6 +14,8 @@ import authRoute from "../src/routes/auth.js";
 import errorController from "./controller/Error.js";
 import User from "./model/userModel.js";
 import koneksi from "../config/database.js";
+import fileUpload from "../config/file-upload.js";
+import __dirname from "./helper/path.js";
 
 const app = express();
 const mongoDBStore = connectMongoDBSession(session);
@@ -20,32 +24,17 @@ const store = new mongoDBStore({
   collection: "sessions",
 });
 const csrfProtection = csrf();
-//config file upload
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/image");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}-${Date.now()}.jpeg`);
-  },
-});
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg"
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "..", "..", "access.log"),
+  { flags: "a" }
+);
 
 app.use(helmet());
 app.use(compression());
+app.use(morgan("combined", { stream: accessLogStream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(multer({ storage, fileFilter }).single("image"));
+app.use(fileUpload);
 app.use(express.static("public"));
 app.use(
   session({
