@@ -8,6 +8,7 @@
     "node": "14.15.3"
   },
   "scripts": {
+    "start": "node src/app",
     "dev": "nodemon -r dotenv/config src/app"
   },
   "author": "",
