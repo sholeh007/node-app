@@ -86,5 +86,5 @@ app.use((error, req, res, next) => {
 });
 
 koneksi(() => {
-  app.listen(process.env.APP_PORT || 3000);
+  app.listen(process.env.PORT || 3000);
 });
