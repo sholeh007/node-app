@@ -1,4 +1,15 @@
 extends ../layout/main
 
 block content
-  h1 Hallo
+  main
+  if order.length <= 0
+    h1 Nothing there! 
+  else
+    ul.orders
+      each orders in order
+        li.orders__item 
+          h1 order - # #{orders._id} -
+            a(href="/invoice/"+orders._id target="_blank")  invoice 
+          ul.orders__products
+            each item in orders.products
+              li.orders__products-item #{item.product.title} (#{item.quantity})

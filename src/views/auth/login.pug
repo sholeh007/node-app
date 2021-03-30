@@ -1,0 +1,17 @@
+extends ../layout/main
+
+block content
+  main
+    if message.length 
+      .user-message.user-message--error #{message}
+    form.login-form(action='/login', method="post")
+      input(type="hidden" name="_csrf" value=csrfToken)
+      .form-control
+        label(for="email") E-mail
+        input(class={invalid : errorValidation.find(e => e.param === 'email')} type="email" name="email" value=oldInput('email') id="email" required)
+      .form-control
+        label(for="password") password
+        input(class={invalid : errorValidation.find(e => e.param === 'password')} type="password" name="password" id="password" required)
+      button.btn(type="submit") Login
+    .centered
+      a(href="/forgot-password") forgot password

@@ -4,7 +4,7 @@ block content
   main.centered
     h1 #{products.title}
     hr
-    div: img(src=products.imageUrl alt=products.title)
-    h2 #{products.price}
+    .image: img(src=products.imageUrl alt=products.title)
+    h2 Rp. #{new Intl.NumberFormat('id').format(products.price)}
     p #{products.description}
     include ../component/btn-add-card

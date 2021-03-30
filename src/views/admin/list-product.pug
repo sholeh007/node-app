@@ -11,12 +11,14 @@ block content
             .card__image
               img(src=products.imageUrl alt=products.title loading="lazy")
             .card__content
-              h2.product__price Rp. #{products.price}
+              h2.product__price Rp. #{new Intl.NumberFormat('id').format(products.price)}
             .card__content
               p.product__description #{products.description}
             .card__actions
-              a.btn(href="/admin/edit-product") Edit
-              form(action="/admin/delete", method="post")
-                button.btn(type="submit") Delete
+              a.btn(href=`/admin/edit-product/${products._id}?edit=true`) Edit
+              input(type="hidden" name="_csrf" value=csrfToken)
+              input(type="hidden" name="id" value=products._id)
+              button.btn(type="button") Delete
       else
         h1 No product
+  script(src="/js/admin.js") 

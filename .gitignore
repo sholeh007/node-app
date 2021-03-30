@@ -1,2 +1,9 @@
 node_modules
+<<<<<<< HEAD
 .env
+=======
+.env
+access.log
+npm-debug.log
+.DS_Store
+>>>>>>> mongoose

@@ -11,11 +11,12 @@ block content
             .card__image
               img(src=products.imageUrl alt=products.title loading="lazy")
             .card__content
-              h2.product__price Rp. #{products.price}
+              h2.product__price Rp. #{new Intl.NumberFormat('id').format(products.price)}
             .card__content
               p.product__description #{products.description}
             .card__actions
-              a.btn(href="/detail/" + products.idproducts) detail
+              a.btn(href=`/detail/${products._id}`) detail
               include ../component/btn-add-card
+        include ../component/pagination
       else
         h1 No product

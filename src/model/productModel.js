@@ -1,27 +1,31 @@
-import db from "../data/database.js";
-class productModel {
-  constructor(title, imageUrl, price, description) {
-    this.title = title;
-    this.imageUrl = imageUrl;
-    this.description = description;
-    this.price = price;
-  }
+import mongoose from "mongoose";
 
-  static getAllProduct() {
-    //mengembalikan promise
-    return db.execute("SELECT * FROM products");
-  }
+const { Schema } = mongoose;
 
-  static findById(id) {
-    return db.execute("SELECT * FROM products WHERE idproducts=?", [id]);
-  }
+const productSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+});
 
-  save() {
-    return db.execute(
-      "INSERT INTO products (title,price,description,imageUrl) VALUES (?,?,?,?)",
-      [this.title, this.price, this.description, this.imageUrl]
-    );
-  }
-}
+const productModel = mongoose.model("Product", productSchema);
 
 export default productModel;
